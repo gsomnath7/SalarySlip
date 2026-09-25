@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="referrer" content="no-referrer">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Salary Slip Portal</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #059669;
+      --bg-gradient: #f4f6f8;
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --focus-ring: rgba(37, 99, 235, 0.25);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html, body {
+      min-height: auto !important;
+      height: auto !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1rem 0.5rem !important;
+      margin: 0 !important;
+      background: var(--bg-gradient);
+    }
+
+    /* Container Box */
+    .login-box, #changePasswordBox {
+      width: 100%;
+      max-width: 380px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border-radius: var(--radius);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+      padding: 0.85rem 1.25rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: left;
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* Header */
+    .brand-header {
+      text-align: center;
+      margin-bottom: 0.85rem;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary);
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .brand-header h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .brand-header p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 0.65rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper i.icon-left {
+      position: absolute;
+      left: 0.85rem;
+      color: #94a3b8;
+      font-size: 0.85rem;
+      pointer-events: none;
+      transition: color 0.2s;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.5rem 0.85rem 0.5rem 2.3rem;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      background: #f8fafc;
+      border: 1.5px solid var(--border-color);
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input:focus, select:focus {
+      background: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--focus-ring);
+    }
+
+    input:focus + i.icon-left, select:focus + i.icon-left {
+      color: var(--primary);
+    }
+
+    /* Select Inputs */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    select {
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .select-wrapper::after {
+      content: "\f078";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      font-size: 0.7rem;
+      position: absolute;
+      right: 1rem;
+      color: #94a3b8;
+      pointer-events: none;
+    }
+
+    /* Password Eye Icon Toggle */
+    .password-container {
+      position: relative;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #64748b;
+      font-size: 1rem;
+      padding: 0.25rem;
+      transition: color 0.2s;
+    }
+
+    .toggle-password:hover {
+      color: var(--text-main);
+    }
+
+    /* Buttons */
+    button.btn-action {
+      width: 100%;
+      padding: 0.85rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #ffffff;
+      background: var(--primary);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+      margin-top: 1rem;
+    }
+
+    button.btn-action:hover:not(:disabled) {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    button.btn-action:disabled {
+      opacity: 0.75;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    button.btn-secondary {
+      background: #f1f5f9;
+      color: #334155;
+      box-shadow: none;
+      border: 1px solid var(--border-color);
+      margin-top: 0.5rem;
+    }
+
+    button.btn-secondary:hover:not(:disabled) {
+      background: #e2e8f0;
+    }
+
+    /* Spinner animation */
+    .btn-spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #ffffff;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Alert / Error Messages */
+    .error-msg {
+      color: #dc2626;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-size: 0.825rem;
+      font-weight: 500;
+      margin-top: 0.85rem;
+      text-align: center;
+      display: none;
+    }
+
+    .muted {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-align: center;
+      margin-top: 1.25rem;
+    }
+
+    /* Summary Card Styling */
+    #summaryCard {
+      display: none;
+      width: 100%;
+      max-width: 440px;
+      margin-top: 1rem;
+    }
+
+    .summary-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.25rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.2);
+      text-align: center;
+    }
+
+    /* Side-by-side small buttons layout */
+    .action-group {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 6px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .action-group button.btn-sm {
+      margin-top: 0 !important;
+      flex: 1 1 0px;
+      min-width: 0;
+      padding: 0.5rem 0.4rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border-radius: 8px;
+      gap: 0.35rem;
+      white-space: nowrap;
+    }
+
+    .action-group button.btn-sm i {
+      font-size: 0.85rem;
+    }
+
+    /* Modal Overlay */
+    #successModal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    #successModalContent {
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #16a34a;
+      max-width: 320px;
+      animation: scaleIn 0.25s ease forwards;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scaleIn { from { transform: scale(0.9); } to { transform: scale(1); } }
+
+    @media (max-width: 360px) {
+      .action-group button.btn-sm {
+        font-size: 0.72rem;
+        padding: 0.45rem 0.25rem;
+      }
+    }
+  
+/* ===== Modern One Page Wrapper - added without changing salary portal internals ===== */
+html,body{height:auto!important;min-height:100%!important;overflow-x:hidden!important;overflow-y:auto!important;}
+body.modern-page{display:block!important;padding:0!important;margin:0!important;background:#f4f7fb!important;}
+.modern-site{width:100%;overflow:hidden;background:#f4f7fb;}
+.modern-header{position:relative;min-height:440px;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=2000&q=85');background-size:cover;background-position:center;}
+.modern-header:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,30,67,.88),rgba(20,91,170,.62),rgba(0,0,0,.38));}
+.header-content{position:relative;z-index:1;width:min(900px,92%);padding:60px 20px;}
+.header-badge{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.13);backdrop-filter:blur(8px);font-size:12px;font-weight:700;letter-spacing:1.5px;}
+.header-content h1{margin:20px 0 10px;font-size:clamp(2.4rem,7vw,4.8rem);line-height:1.04;font-weight:800;letter-spacing:-.045em;color:#fff;}
+.header-content p{margin:0 auto 28px;max-width:680px;font-size:clamp(1rem,2vw,1.2rem);line-height:1.6;color:rgba(255,255,255,.93);}
+.header-btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:#fff;background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.45);padding:13px 22px;border-radius:13px;font-weight:700;transition:.25s ease;backdrop-filter:blur(8px);}
+.header-btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.27);color:#fff;}
+.portal-highlights{position:relative;width:min(1120px,94%);margin:-55px auto 0;z-index:5;border-radius:24px;background:rgba(255,255,255,.98);box-shadow:0 22px 55px rgba(15,23,42,.17);overflow:hidden;min-height:155px;}
+.highlight-viewport{overflow:hidden;min-height:155px;}
+.highlight-track{display:flex;min-width:0;transition:transform .55s ease;will-change:transform;}
+.highlight-slide{min-width:100%;min-height:155px;display:flex;align-items:center;justify-content:center;gap:24px;padding:30px 85px;}
+.highlight-icon{width:64px;height:64px;flex:0 0 64px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:#eaf2ff;color:#2563eb;font-size:27px;}
+.highlight-slide strong{display:block;color:#0f172a;font-size:21px;margin-bottom:7px;}
+.highlight-slide p{margin:0;color:#64748b;font-size:15px;line-height:1.55;}
+.slide-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:44px;height:44px;border:0;border-radius:50%;background:#eef4ff;color:#2563eb;cursor:pointer;box-shadow:0 7px 18px rgba(15,23,42,.14);font-size:16px;}
+.slide-btn:hover{background:#2563eb;color:#fff;}
+.slide-btn.prev{left:18px}.slide-btn.next{right:18px}
+.salary-portal-section{width:min(1120px,94%);margin:48px auto 0;display:flex;flex-direction:column;align-items:center;min-height:160px;}
+.salary-portal-section #loginBox,.salary-portal-section #changePasswordBox{margin:0 auto;}
+.salary-portal-section #summaryCard{width:100%;display:flex;justify-content:center;margin-top:20px;}
+.about-portal{width:min(1120px,94%);margin:58px auto 48px;display:grid;grid-template-columns:1.15fr .85fr;gap:24px;}
+.about-card,.features-card{background:#fff;border:1px solid #e5eaf1;border-radius:22px;padding:30px;box-shadow:0 14px 35px rgba(15,23,42,.07);}
+.about-icon{width:54px;height:54px;border-radius:16px;background:#eaf2ff;color:#2563eb;display:flex;align-items:center;justify-content:center;font-size:23px;margin-bottom:17px;}
+.about-card h2,.features-card h2{margin:0 0 13px;color:#0f172a;font-size:23px;}
+.about-card p{margin:0 0 11px;color:#64748b;line-height:1.75;font-size:14px;}
+.feature-item{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid #edf1f5;}
+.feature-item:last-child{border-bottom:0;padding-bottom:0;}
+.feature-item>i{width:38px;height:38px;border-radius:11px;background:#f1f5f9;color:#2563eb;display:flex;align-items:center;justify-content:center;flex:0 0 38px;}
+.feature-item strong{display:block;color:#1e293b;font-size:14px;margin-bottom:3px;}
+.feature-item span{display:block;color:#64748b;font-size:12px;line-height:1.5;}
+.modern-footer{width:100%;margin-top:20px;background:#0f172a;color:#cbd5e1;text-align:center;padding:28px 15px;font-size:13px;}
+.modern-footer .footer-title{color:#fff;font-size:16px;font-weight:700;}
+ .modern-footer .designer{color:#93c5fd;font-weight:700;}
+ .modern-footer .footer-inner{width:min(1120px,94%);margin:0 auto;}
+ .modern-footer p{margin:5px 0;line-height:1.6;}
+ .modern-footer .footer-copy{margin-top:10px;font-size:12px;color:#94a3b8;}
+
+/* Keep the existing login card intact, only make the year field clearly visible. */
+#year{display:block!important;width:100%!important;min-height:42px!important;opacity:1!important;visibility:visible!important;color:#0f172a!important;background:#fff!important;}
+@media(max-width:700px){
+ .modern-header{min-height:380px;} .header-content{padding:48px 14px;} .header-content h1{font-size:2.5rem;}
+ .portal-highlights{margin-top:-40px;border-radius:20px;min-height:145px;} .highlight-viewport,.highlight-slide{min-height:145px;}
+ .highlight-slide{padding:25px 58px;justify-content:flex-start;gap:15px;} .highlight-icon{width:54px;height:54px;flex-basis:54px;font-size:22px;}
+ .highlight-slide strong{font-size:17px;} .highlight-slide p{font-size:13px;} .slide-btn{width:38px;height:38px;}
+ .about-portal{width:calc(100% - 24px);grid-template-columns:1fr;margin:42px auto 30px;gap:16px;} .about-card,.features-card{padding:22px;width:100%;min-width:0;} .about-card h2,.features-card h2{font-size:20px;line-height:1.3;} .about-card p{font-size:13px;line-height:1.65;} .feature-item{gap:11px;} .feature-item>i{width:36px;height:36px;flex-basis:36px;} .feature-item div{min-width:0;} .feature-item strong,.feature-item span{overflow-wrap:anywhere;}
+}
+@media(prefers-reduced-motion:reduce){.highlight-track{transition:none}.header-btn{transition:none;}}
+
+
+/* ===== Mobile layout stabilization ===== */
+@media (max-width:700px){
+  html,body{width:100%;max-width:100%;padding:0!important;margin:0!important;overflow-x:hidden!important;}
+  body.modern-page{width:100%;min-width:0!important;}
+  .modern-site{width:100%;max-width:100vw;min-width:0;overflow-x:hidden;overflow-y:visible;}
+  .modern-header{width:100%;max-width:100vw;overflow:hidden;}
+  .header-content{width:100%;max-width:100%;min-width:0;box-sizing:border-box;}
+
+  .portal-highlights{width:calc(100% - 20px);max-width:calc(100vw - 20px);min-width:0;box-sizing:border-box;margin-left:auto;margin-right:auto;overflow:hidden;}
+  .highlight-viewport{width:100%;max-width:100%;min-width:0;overflow:hidden;}
+  .highlight-track{width:100%;max-width:100%;min-width:0;}
+  .highlight-slide{box-sizing:border-box;flex:0 0 100%;width:100%;min-width:100%;max-width:100%;padding:22px 54px 22px 58px;min-height:145px;overflow:hidden;}
+  .highlight-slide>div:last-child{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:normal;}
+  .highlight-slide strong,.highlight-slide p{max-width:100%;overflow-wrap:anywhere;}
+  .slide-btn.prev{left:10px}.slide-btn.next{right:10px}
+
+  .salary-portal-section{width:100%;max-width:100vw;min-width:0;padding:0 10px;box-sizing:border-box;overflow:visible;}
+  .salary-portal-section #loginBox,.salary-portal-section #changePasswordBox{width:100%;max-width:380px;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box;}
+  .salary-portal-section #summaryCard{width:100%;max-width:440px;min-width:0;}
+  .login-box,.login-box *,.summary-card,.summary-card *{max-width:100%;box-sizing:border-box;}
+  input,select{min-width:0;font-size:16px!important;}
+
+  .about-portal{width:calc(100% - 20px);max-width:calc(100vw - 20px);min-width:0;margin-left:auto;margin-right:auto;box-sizing:border-box;}
+  .about-card,.features-card{width:100%;max-width:100%;min-width:0;box-sizing:border-box;overflow:hidden;}
+  .modern-footer{width:100%;max-width:100vw;box-sizing:border-box;overflow:hidden;}
+}
+
+</style>
+</head>
+<body class="modern-page">
+<div class="modern-site">
+<header class="modern-header">
+  <div class="header-content">
+    <div class="header-badge"><i class="fa-solid fa-graduation-cap"></i> DIGITAL SALARY SERVICE</div>
+    <h1>Teacher Salary Portal</h1>
+    <p>Secure and convenient access to your monthly salary slip, summary and printable PDF.</p>
+    <a href="#salaryPortal" class="header-btn">Access Salary Portal <i class="fa-solid fa-arrow-down"></i></a>
+  </div>
+</header>
+<section class="portal-highlights" aria-label="Portal highlights">
+  <button class="slide-btn prev" type="button" onclick="changeHighlight(-1)" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+  <div class="highlight-viewport"><div class="highlight-track" id="highlightTrack">
+    <div class="highlight-slide"><div class="highlight-icon"><i class="fa-solid fa-shield-halved"></i></div><div><strong>Secure Access</strong><p>Employee ID and password based access to salary records.</p></div></div>
+    <div class="highlight-slide"><div class="highlight-icon"><i class="fa-solid fa-calendar-days"></i></div><div><strong>Monthly Salary Slip</strong><p>Select the required month and year to view your record.</p></div></div>
+    <div class="highlight-slide"><div class="highlight-icon"><i class="fa-solid fa-file-pdf"></i></div><div><strong>Print & PDF</strong><p>Generate a printable salary slip or save it as a PDF.</p></div></div>
+    <div class="highlight-slide"><div class="highlight-icon"><i class="fa-solid fa-mobile-screen-button"></i></div><div><strong>Mobile Friendly</strong><p>Convenient access on mobile, tablet and desktop devices.</p></div></div>
+  </div></div>
+  <button class="slide-btn next" type="button" onclick="changeHighlight(1)" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+</section>
+<section id="salaryPortal" class="salary-portal-section">
+
+
+<!-- Login Box -->
+<div id="loginBox" class="login-box" role="main" aria-labelledby="loginTitle">
+  <div class="brand-header">
+    <div class="brand-icon">
+      <i class="fa-solid fa-graduation-cap"></i>
+    </div>
+    <h2 id="loginTitle">Teacher Salary Portal</h2>
+    <p>Enter details to view your pay slip</p>
+  </div>
+
+  <div class="form-group">
+    <label for="username">Employee ID</label>
+    <div class="input-wrapper">
+      <input id="username" type="text" aria-label="Employee ID" autocomplete="username" placeholder="Enter Employee ID" required />
+      <i class="fa-solid fa-id-card icon-left"></i>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <div class="password-container input-wrapper">
+      <input type="password" id="password" aria-label="Password" autocomplete="current-password" placeholder="••••••••" required>
+      <i class="fa-solid fa-lock icon-left"></i>
+      <i id="eyeIcon" class="fa-solid fa-eye toggle-password" role="button" aria-label="Show password"></i>
+      <i id="eyeOffIcon" class="fa-solid fa-eye-slash toggle-password" style="display:none;" role="button" aria-label="Hide password"></i>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="form-group">
+      <label for="month">Month</label>
+      <div class="input-wrapper select-wrapper">
+        <select id="month" aria-label="Select Month" required>
+          <option value="">Select Month</option>
+          <option>January</option><option>February</option><option>March</option><option>April</option>
+          <option>May</option><option>June</option><option>July</option><option>August</option>
+          <option>September</option><option>October</option><option>November</option><option>December</option>
+        </select>
+        <i class="fa-solid fa-calendar-days icon-left"></i>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="year">Year</label>
+      <div class="input-wrapper select-wrapper">
+        <select id="year" aria-label="Select Year" required></select>
+        <i class="fa-solid fa-calendar icon-left"></i>
+      </div>
+    </div>
+  </div>
+
+  <button id="loginBtn" class="btn-action" onclick="login()">
+    <span id="loginBtnText">Get Salary Slip</span>
+    <i id="loginBtnIcon" class="fa-solid fa-arrow-right"></i>
+  </button>
+
+  <div id="errorMsg" class="error-msg" role="alert"></div>
+
+  <button class="btn-action btn-secondary" onclick="toggleChangePassword()">
+    <i class="fa-solid fa-key"></i> Change Password
+  </button>
+
+  <div class="muted">Web designed by Somnath Gaikwad Sir</div>
+</div>
+
+<!-- Change Password Box -->
+<div id="changePasswordBox" style="display:none;" role="main" aria-labelledby="changePassTitle">
+  <div class="brand-header">
+    <div class="brand-icon">
+      <i class="fa-solid fa-shield-halved"></i>
+    </div>
+    <h2 id="changePassTitle">Change Password</h2>
+    <p>Update your portal access password</p>
+  </div>
+
+  <div class="form-group">
+    <label for="empIdPass">Employee ID</label>
+    <div class="input-wrapper">
+      <input id="empIdPass" type="text" aria-label="Employee ID" placeholder="Enter Employee ID" autocomplete="username" required />
+      <i class="fa-solid fa-id-card icon-left"></i>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="oldPass">Old Password</label>
+    <div class="input-wrapper">
+      <input id="oldPass" type="password" aria-label="Old Password" placeholder="••••••••" autocomplete="current-password" required />
+      <i class="fa-solid fa-lock icon-left"></i>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="newPass">New Password</label>
+    <div class="input-wrapper">
+      <input id="newPass" type="password" aria-label="New Password" placeholder="New Password" autocomplete="new-password" required />
+      <i class="fa-solid fa-key icon-left"></i>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="confirmPass">Confirm Password</label>
+    <div class="input-wrapper">
+      <input id="confirmPass" type="password" aria-label="Confirm New Password" placeholder="Confirm New Password" autocomplete="new-password" required />
+      <i class="fa-solid fa-check-double icon-left"></i>
+    </div>
+  </div>
+
+  <button id="updatePassBtn" class="btn-action" style="background:#16a34a;" onclick="changePassword()">
+    <span id="updatePassBtnText">Update Password</span>
+  </button>
+
+  <button class="btn-action btn-secondary" onclick="backToLogin()">
+    <i class="fa-solid fa-arrow-left"></i> Back to Login
+  </button>
+
+  <div id="passMsg" class="error-msg" role="alert" style="display:none;"></div>
+</div>
+
+<!-- Success Modal -->
+<div id="successModal" role="alert" aria-live="assertive">
+  <div id="successModalContent">
+    <i class="fa-solid fa-circle-check" style="font-size:2.5rem; margin-bottom:0.5rem; display:block;"></i>
+    Password changed successfully! Please login again.
+  </div>
+</div>
+
+<!-- Summary Card Container -->
+<div id="summaryCard"></div>
+</section>
+
+<section class="about-portal">
+  <div class="about-card">
+    <div class="about-icon"><i class="fa-solid fa-circle-info"></i></div>
+    <h2>About Teacher Salary Portal</h2>
+    <p>Teacher Salary Portal is a digital platform designed to provide teachers with convenient access to their monthly salary information.</p>
+    <p>Teachers can select the required month and year, view their salary summary and generate a printable salary slip or PDF copy.</p>
+  </div>
+  <div class="features-card">
+    <h2>Portal Features</h2>
+    <div class="feature-item"><i class="fa-solid fa-lock"></i><div><strong>Secure Login</strong><span>Employee ID and password based access.</span></div></div>
+    <div class="feature-item"><i class="fa-solid fa-calendar-check"></i><div><strong>Monthly Records</strong><span>Access salary records by month and year.</span></div></div>
+    <div class="feature-item"><i class="fa-solid fa-print"></i><div><strong>Print Salary Slip</strong><span>Generate a printable salary slip.</span></div></div>
+    <div class="feature-item"><i class="fa-solid fa-file-pdf"></i><div><strong>PDF Copy</strong><span>Save your salary slip as a PDF file.</span></div></div>
+  </div>
+</section>
+
+<!-- Modern site footer -->
+<footer class="modern-footer">
+  <div class="footer-inner">
+    <div class="footer-title">Teacher Salary Portal</div>
+    <p>Digital Salary Service</p>
+    <p class="designer">Web designed by Somnath Gaikwad Sir</p>
+    <p class="footer-copy">© <span id="footerYear"></span> Teacher Salary Portal. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script>
+  // Populate year dropdown and automatically select the current year
+  (function fillYears(){
+    const sel = document.getElementById('year');
+    if(!sel) return;
+
+    const cur = new Date().getFullYear();
+
+    // Add missing years while preserving the existing options
+    const existing = new Set(Array.from(sel.options).map(o => String(o.value)));
+    for(let y = cur; y >= cur - 5; y--){
+      if(!existing.has(String(y))){
+        const o = document.createElement('option');
+        o.value = String(y);
+        o.textContent = String(y);
+        sel.appendChild(o);
+      }
+    }
+
+    // IMPORTANT: explicitly select the current year
+    sel.value = String(cur);
+
+    // Fallback if the current year was not available for any reason
+    if(sel.value !== String(cur) && sel.options.length > 1){
+      sel.selectedIndex = 1;
+    }
+  })();
+
+  // ===== Automatic Highlight Slider =====
+  let currentHighlight = 0;
+  let highlightTimer = null;
+  let sliderPaused = false;
+
+  function updateHighlight(){
+    const track = document.getElementById('highlightTrack');
+    if(!track) return;
+
+    const total = track.children.length;
+    if(!total) return;
+
+    if(currentHighlight >= total) currentHighlight = 0;
+    if(currentHighlight < 0) currentHighlight = total - 1;
+
+    track.style.transform = `translateX(-${currentHighlight * 100}%)`;
+  }
+
+  function changeHighlight(direction){
+    const track = document.getElementById('highlightTrack');
+    if(!track || !track.children.length) return;
+
+    currentHighlight += direction;
+    updateHighlight();
+    restartHighlightTimer();
+  }
+
+  function startHighlightTimer(){
+    stopHighlightTimer();
+    highlightTimer = setInterval(() => {
+      if(!sliderPaused){
+        currentHighlight++;
+        updateHighlight();
+      }
+    }, 4000);
+  }
+
+  function stopHighlightTimer(){
+    if(highlightTimer){
+      clearInterval(highlightTimer);
+      highlightTimer = null;
+    }
+  }
+
+  function restartHighlightTimer(){
+    startHighlightTimer();
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    const viewport = document.querySelector('.highlight-viewport');
+    const portalHighlights = document.querySelector('.portal-highlights');
+
+    if(viewport){
+      viewport.addEventListener('mouseenter', () => sliderPaused = true);
+      viewport.addEventListener('mouseleave', () => sliderPaused = false);
+      viewport.addEventListener('touchstart', () => sliderPaused = true, {passive:true});
+      viewport.addEventListener('touchend', () => {
+        setTimeout(() => sliderPaused = false, 2500);
+      }, {passive:true});
+    }
+
+    updateHighlight();
+    startHighlightTimer();
+  });
+
+  // Start automatically even when this script is loaded after DOMContentLoaded
+  if(document.readyState !== 'loading'){
+    updateHighlight();
+    startHighlightTimer();
+  }
+
+  // Footer copyright year
+  const footerYear = document.getElementById('footerYear');
+  if(footerYear) footerYear.textContent = new Date().getFullYear();
+
+  let slipData = null;
+
+  const passwordInput = document.getElementById("password");
+  const eyeIcon = document.getElementById("eyeIcon");
+  const eyeOffIcon = document.getElementById("eyeOffIcon");
+
+  eyeIcon.addEventListener("click", () => {
+    passwordInput.type = "text";
+    eyeIcon.style.display = "none";
+    eyeOffIcon.style.display = "block";
+  });
+
+  eyeOffIcon.addEventListener("click", () => {
+    passwordInput.type = "password";
+    eyeOffIcon.style.display = "none";
+    eyeIcon.style.display = "block";
+  });
+
+  // Google Apps Script Web App API endpoint
+  const API_URL = 'https://script.google.com/macros/s/AKfycbzTHIIzPz6nPRZogfv0sVssSeAuRXD8EQMHy5308EQqWSILwoHbcNiPNZN1DLG4cXg/exec';
+
+  async function apiRequest(payload){
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    if(!response.ok) throw new Error('HTTP ' + response.status);
+    return await response.json();
+  }
+
+  function login(){
+    const u = document.getElementById('username').value.trim();
+    const p = document.getElementById('password').value.trim();
+    const m = document.getElementById('month').value;
+    const y = document.getElementById('year').value;
+    const errorBox = document.getElementById('errorMsg');
+    const btn = document.getElementById('loginBtn');
+    const btnText = document.getElementById('loginBtnText');
+    const btnIcon = document.getElementById('loginBtnIcon');
+
+    errorBox.style.display = "none";
+    errorBox.textContent = "";
+
+    if(!u || !p || !m || !y){ 
+      errorBox.textContent = "⚠️ Please fill all fields"; 
+      errorBox.style.display = "block"; 
+      document.getElementById(!u ? 'username' : !p ? 'password' : !m ? 'month' : 'year').focus();
+      return; 
+    }
+
+    btn.disabled = true;
+    btnText.textContent = "Fetching Slip...";
+    btnIcon.className = "btn-spinner";
+
+    apiRequest({
+      action: 'login',
+      username: u,
+      password: p,
+      month: m,
+      year: y
+    }).then(function(res){
+      btn.disabled = false;
+      btnText.textContent = "Get Salary Slip";
+      btnIcon.className = "fa-solid fa-arrow-right";
+
+      if(!res || !res.success){ 
+        errorBox.textContent = res && res.message ? res.message : "❌ Invalid login or no record found!";
+        errorBox.style.display = "block";
+        return; 
+      }
+      slipData = res.record;
+      renderSummary(slipData);
+    }).catch(function(err){
+      console.error(err);
+      btn.disabled = false;
+      btnText.textContent = "Get Salary Slip";
+      btnIcon.className = "fa-solid fa-arrow-right";
+      errorBox.textContent = "⚠️ Connection error. Please check the API URL and Apps Script deployment.";
+      errorBox.style.display = "block";
+    });
+  }
+
+  function toggleChangePassword(){
+    document.getElementById('loginBox').style.display = "none";
+    document.getElementById('changePasswordBox').style.display = "block";
+
+    ['empIdPass','oldPass','newPass','confirmPass'].forEach(id => {
+      document.getElementById(id).value = "";
+    });
+    const msgBox = document.getElementById('passMsg');
+    msgBox.style.display = "none";
+    msgBox.textContent = "";
+  }
+
+  function backToLogin(){
+    document.getElementById('changePasswordBox').style.display = "none";
+    document.getElementById('loginBox').style.display = "block";
+  }
+
+  function changePassword(){
+    const u = document.getElementById('empIdPass').value.trim();
+    const oldP = document.getElementById('oldPass').value.trim();
+    const newP = document.getElementById('newPass').value.trim();
+    const confirmP = document.getElementById('confirmPass').value.trim();
+    const msgBox = document.getElementById('passMsg');
+    const btn = document.getElementById('updatePassBtn');
+    const btnText = document.getElementById('updatePassBtnText');
+
+    msgBox.style.display = "none";
+    msgBox.textContent = "";
+
+    if(!u || !oldP || !newP || !confirmP){
+      msgBox.textContent = "⚠️ Fill all fields"; 
+      msgBox.style.display = "block"; 
+      return;
+    }
+    if(newP !== confirmP){
+      msgBox.textContent = "❌ New passwords do not match"; 
+      msgBox.style.display = "block"; 
+      return;
+    }
+
+    btn.disabled = true;
+    btnText.innerHTML = '<span class="btn-spinner"></span> Updating...';
+
+    apiRequest({
+      action: 'updatePassword',
+      username: u,
+      oldPassword: oldP,
+      newPassword: newP
+    }).then(function(res){
+      btn.disabled = false;
+      btnText.textContent = "Update Password";
+
+      msgBox.textContent = res.message;
+      msgBox.style.display = "block";
+      msgBox.style.color = res.success ? "#16a34a" : "#dc2626";
+
+      if(res.success){
+        ['empIdPass','oldPass','newPass','confirmPass'].forEach(id => {
+          document.getElementById(id).value = "";
+        });
+
+        const modal = document.getElementById("successModal");
+        modal.style.display = "flex";
+
+        setTimeout(() => {
+          modal.style.display = "none";
+          backToLogin();
+        }, 3000);
+      }
+    }).catch(function(err){
+      console.error(err);
+      btn.disabled = false;
+      btnText.textContent = "Update Password";
+      msgBox.textContent = "⚠️ Connection error. Please check the API URL and Apps Script deployment.";
+      msgBox.style.display = "block";
+      msgBox.style.color = "#dc2626";
+    });
+  }
+
+  function renderSummary(r){
+    document.getElementById('loginBox').style.display = 'none';
+    const html = `
+      <div class="summary-card" id="summaryInner" role="region" aria-live="polite" aria-label="Salary slip summary">
+        <h3 style="margin:4px 0 12px; font-size:1.15rem; color:var(--text-main);">${escapeHtml(r.Name || '')} <span style="font-size:0.85rem; color:var(--text-muted);">(${escapeHtml(r.EmployeeID || '')})</span></h3>
+        <p style="font-size:0.85rem; margin-bottom:6px;"><strong>Month:</strong> ${escapeHtml(r.Month||'')} &nbsp;&bull;&nbsp; <strong>Year:</strong> ${escapeHtml(r.Year||'')}</p>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;"><strong>Gross:</strong> ₹${escapeHtml(r.GrossSalary||'0')} &nbsp;&bull;&nbsp; <strong>Deductions:</strong> ₹${escapeHtml(r.TotalDeductions||'0')}</p>
+        <div style="background:#f1f5f9; padding:10px; margin:12px 0; border-radius:10px; border: 1px solid var(--border-color);">
+          <h3 style="color:#16a34a; font-size:1.1rem;">Net Salary: ₹${escapeHtml(r.NetSalary||'0')}</h3>
+          <p style="font-size:0.75rem; color:#475569; margin-top:2px;">In Words: ${escapeHtml(r.NetSalaryWords||'')}</p>
+        </div>
+        <div class="action-group">
+          <button onclick="showPrintSlip()" class="btn-action btn-sm" style="background:#16a34a;">
+            <i class="fa-solid fa-print"></i> Print
+          </button>
+          <button onclick="downloadPdfSlip(this)" class="btn-action btn-sm" style="background:#2563eb;">
+            <i class="fa-solid fa-file-pdf"></i> PDF
+          </button>
+          <button onclick="resetForm()" class="btn-action btn-sm btn-secondary">
+            <i class="fa-solid fa-rotate-left"></i> Reset
+          </button>
+        </div>
+      </div>
+    `;
+    const summaryCard = document.getElementById('summaryCard');
+    summaryCard.innerHTML = html;
+    summaryCard.style.display = 'block';
+  }
+
+  function resetForm(){
+    slipData = null;
+    document.getElementById('loginBox').style.display = 'block';
+    ['username','password','month'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    // Keep the current year automatically selected after Reset
+    const yearSelect = document.getElementById('year');
+    if(yearSelect) yearSelect.value = String(new Date().getFullYear());
+    document.getElementById('summaryCard').style.display = 'none';
+    document.getElementById('summaryCard').innerHTML = '';
+    document.getElementById('errorMsg').style.display = "none";
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"]/g, m => ({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;'
+    }[m]));
+  }
+
+  function generatePrintHtml(){
+    if(!slipData) return '';
+
+    const allowances = [
+      ['मूळ वेतन','BasicPay'], ['महागाई भत्‍ता','DA'], ['घरभाडे','HRA'], ['वाहन भत्‍ता','TA'], ['महागाई फरक','Arrears'], ['वेतन फरक','BasicArrears'], ['NPS Employer','NPS_Employer'], ['के.प्र भत्‍ता','KPAllowance'],['इतर भत्‍ते','OtherAllowance'], ['दिव्‍यांग भत्‍ता','HandicapAllow'], ['७ वा वेतन','SeventhPay'], ['एकूण वेतन','GrossSalary']
+    ];
+    const deductions = [
+      ['गटविमा','GIS'], ['व्‍यवसाय कर','ProfessionalTax'], ['भनिनी वर्गणी','GPF'], ['भनिनी हप्‍ता','GPFE'], ['Revenue Stamp','RevenueStamp'], ['NPSG','NPSG'], ['NPSE','NPSE'], ['अग्रीम','FA'], ['आयकर','IncomeTax'], ['मुख्‍यमंत्री निधी','CMFund'],
+      ['ध्‍वज निधी','FlagFund'], ['अपघात विमा','GAI'], ['जिल्‍हा सोसा.','ZillaSociety'], ['कोर्ट वसुली','CourtDeduction'],
+      ['जोशाबा','JSBSociety'], ['बहुजन सोसा','ZPBSociety'], ['धोत्री सोसा','DhotriSociety'], ['मंद्रुप सोसा','MandrupSociety'], ['मार्डी सोसा','MardiSociety'], ['मौआसो','MAzadSociety'], ['माने सोसा','ManeSociety'],
+      ['समर्थ सोसा','SwamiSamarthSociety'],  ['अक्‍कलकोट सो','AkkalkotSociety'],  ['मालपासो','MLPS'],
+      ['शिवकृपा फा','ShivkrupaFa'], ['वसूली','Repayment'], ['माने बॅंक','ManeBank'], ['सांगली बॅंक','SangaliBank'],
+      ['जनता बॅंक','JantaBank'], ['लाेकमंगल बॅंक','Lokmangal'], ['रेणूका','Renuka'], ['इतर','Other'], ['भिमा पत','Bhima'],
+      ['एकूण वजावट','TotalDeductions']  
+    ];
+
+    function getVal(key){ return slipData[key] ? slipData[key] : 0; }
+
+    let rows = "";
+    const maxRows = Math.max(allowances.length, Math.ceil(deductions.length / 3));
+    for(let i = 0; i < maxRows; i++){
+      const a  = allowances[i] ? `<td>${allowances[i][0]}</td><td>₹${escapeHtml(getVal(allowances[i][1]))}</td>` : "<td></td><td></td>";
+     
+      const d1 = deductions[i * 3] || [null, null];
+      const d2 = deductions[i * 3 + 1] || [null, null];
+      const d3 = deductions[i * 3 + 2] || [null, null];
+
+      const isLastRow = d1[0] === 'एकूण वजावट';
+
+      if(isLastRow){
+        rows += `<tr>${a}<td colspan="6" style="text-align:center; font-weight:bold;">${escapeHtml(d1[0])}: ₹${escapeHtml(getVal(d1[1]))}</td></tr>`;
+      }
+      else{
+        function deductionCell(label, key){
+          if(!label) return "<td></td><td></td>";
+          return `<td>${escapeHtml(label)}</td><td style="border-right:1px solid #1976d2; text-align:right;">₹${escapeHtml(getVal(key))}</td>`;
+        }
+        const d1Cells = deductionCell(d1[0], d1[1]);
+        const d2Cells = deductionCell(d2[0], d2[1]);
+        const d3Cells = deductionCell(d3[0], d3[1]);
+
+        rows += `<tr>${a}${d1Cells}${d2Cells}${d3Cells}</tr>`;
+      }
+    }
+
+    const qrData = `EmployeeID:${slipData.EmployeeID}|Month:${slipData.Month}|Year:${slipData.Year}|NetSalary:${slipData.NetSalary}`;
+    const qrContainer = document.createElement("div");
+    qrContainer.style.display = "none";
+    document.body.appendChild(qrContainer);
+    new QRCode(qrContainer, { text: qrData, width: 100, height: 100 });
+    const canvas = qrContainer.querySelector("canvas");
+    const qrBase64 = canvas ? canvas.toDataURL("image/png") : "";
+    qrContainer.remove();
+
+    return `
+      <div style="font-family:Arial, sans-serif; font-size:12px; color:#000; background:#fff; padding:10px; width:750px; margin:0 auto;">
+        <style>
+          .pdf-table { width:100%; border-collapse:collapse; border:2px solid #1976d2; margin-top:10px; }
+          .pdf-table th, .pdf-table td { padding:5px 6px; font-size:12px; }
+          .pdf-table thead th { background:#e3f2fd; border-bottom:2px solid #1976d2; text-align:center; font-weight:600; }
+          .pdf-table tbody td { border-bottom:1px dotted #1976d2; }
+          .pdf-table th, .pdf-table td { border-left:none; border-right:none; }
+          .pdf-table thead th:nth-child(2) { border-right:1px solid #1976d2; }
+          .pdf-table tbody td:nth-child(2) { border-right:1px solid #1976d2; }
+          .pdf-table tbody td:nth-child(1), .pdf-table tbody td:nth-child(2) { text-align:left; }
+          .pdf-table tbody td:nth-child(n+3) { text-align:right; }
+          .pdf-table tbody tr:last-child td { font-weight:700; background:#f1f8ff; border-top:2px solid #1976d2; }
+          .net-box { margin-top:14px; padding:10px; background:#f5f5f5; border:1.5px solid #999; border-radius:6px; text-align:center; }
+          .net-box h3 { margin:0; font-size:15px; font-weight:700; color:#16a34a; }
+          .net-box p { margin:4px 0 0; font-size:13px; color:#333; }
+          .footer {
+            margin-top:24px;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: #777;
+            padding-top: 10px;
+            text-align: center;
+            letter-spacing: 1px;
+            border-top:1px dotted #999;
+          }
+          .qr-box { text-align:center; }
+          .qr-box img { height:90px; width:90px; }
+        </style>
+        <div class="header-text" style="text-align:center; border-bottom:2px solid #1976d2; padding-bottom:6px;">
+          <h1 style="margin:0; font-size:20px; color:#1a237e;">पंचायत समिती (शिक्षण विभाग), दक्षिण सोलापूर</h1>
+          <h2 style="margin:4px 0 0; font-size:16px; color:#444;">वेतन पत्रक (Pay Slip)</h2>
+        </div>
+        <div class="meta" style="margin:10px 0; padding:10px; background:#f9f9f9; border:1px solid #ccc; border-radius:6px; display:flex; justify-style:space-between; font-size:12px;">
+          <div style="width:42%;">
+            <p style="margin:2px 0;"><strong>महिना:</strong> ${escapeHtml(slipData.Month||'')}</p>
+            <p style="margin:2px 0;"><strong>वर्ष:</strong> ${escapeHtml(slipData.Year||'')}</p>
+            <p style="margin:2px 0;"><strong>नाव:</strong> ${escapeHtml(slipData.Name||'')}</p>
+            <p style="margin:2px 0;"><strong>पद:</strong> ${escapeHtml(slipData.Designation||'')}</p>
+            <p style="margin:2px 0;"><strong>भनिनी क्र:</strong> ${escapeHtml(slipData.PFNo||'')}</p>
+          </div>
+          <div style="width:42%;">
+            <p style="margin:2px 0;"><strong>शाळा:</strong> ${escapeHtml(slipData.School||'')}</p>
+            <p style="margin:2px 0;"><strong>UDISE:</strong> ${escapeHtml(slipData.UDISE||'')}</p>
+            <p style="margin:2px 0;"><strong>केंद्र:</strong> ${escapeHtml(slipData.ClusterName||'')}</p>
+            <p style="margin:2px 0;"><strong>Account No:</strong> ${escapeHtml(slipData.AccountNumber||'')}</p>
+            <p style="margin:2px 0;"><strong>बॅंकेचे नाव:</strong> ${escapeHtml(slipData.BankName||'')}</p>
+          </div>
+          <div style="width:16%;" class="qr-box">
+            <img src="${qrBase64}" alt="QR Code">
+            <div style="font-size:10px; margin-top:2px;">Scan to verify</div>
+          </div>
+        </div>
+
+        <table class="pdf-table">
+          <thead><tr><th colspan="2" style="border-right:1px solid #1976d2">Allowances</th><th colspan="6">Deductions</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <div class="net-box">
+          <h3>निव्‍वळ वेतन: ₹${escapeHtml(slipData.NetSalary||'0')}</h3>
+          <p><strong>अक्षरी:</strong> ${escapeHtml(slipData.NetSalaryWords||'')}</p>
+        </div>
+        <div class="footer">
+          This is a system-generated salary slip and does not require a signature.
+        </div>
+      </div>`;
+  }
+
+  function showPrintSlip(){
+    if(!slipData){ alert('No data to print'); return; }
+    const printHtml = generatePrintHtml();
+
+    let printIframe = document.getElementById('printIframe');
+    if (!printIframe) {
+      printIframe = document.createElement('iframe');
+      printIframe.id = 'printIframe';
+      printIframe.style.position = 'fixed';
+      printIframe.style.right = '0';
+      printIframe.style.bottom = '0';
+      printIframe.style.width = '0';
+      printIframe.style.height = '0';
+      printIframe.style.border = '0';
+      document.body.appendChild(printIframe);
+    }
+
+    const doc = printIframe.contentWindow.document;
+    doc.open();
+    doc.write('<html><head><title>Print Slip</title></head><body>' + printHtml + '</body></html>');
+    doc.close();
+
+    setTimeout(() => {
+      printIframe.contentWindow.focus();
+      printIframe.contentWindow.print();
+    }, 150);
+  }
+
+  function downloadPdfSlip(btnEl){
+    if(!slipData){ alert('No data available to download PDF'); return; }
+
+    const originalText = btnEl.innerHTML;
+    btnEl.disabled = true;
+    btnEl.innerHTML = '<span class="btn-spinner"></span> PDF...';
+
+    const printHtml = generatePrintHtml();
+
+    // Container placed directly in document view, styled behind other elements
+    const container = document.createElement('div');
+    container.style.position = 'fixed';
+    container.style.top = '0';
+    container.style.left = '0';
+    container.style.width = '100%';
+    container.style.height = '100%';
+    container.style.zIndex = '-9999';
+    container.style.overflow = 'hidden';
+    container.style.background = '#ffffff';
+    container.innerHTML = printHtml;
+    document.body.appendChild(container);
+
+    const opt = {
+      margin:       0.2,
+      filename:     `SalarySlip_${slipData.EmployeeID}_${slipData.Month}_${slipData.Year}.pdf`,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { 
+        scale: 2,               // Clean high DPI resolution
+        useCORS: true,
+        logging: false,
+        scrollY: 0,
+        scrollX: 0
+      },
+      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    setTimeout(() => {
+      html2pdf().set(opt).from(container.firstElementChild).save().then(() => {
+        if (document.body.contains(container)) {
+          document.body.removeChild(container);
+        }
+        btnEl.disabled = false;
+        btnEl.innerHTML = originalText;
+      }).catch(err => {
+        console.error(err);
+        alert('Failed to generate PDF. Please try printing to PDF instead.');
+        if (document.body.contains(container)) {
+          document.body.removeChild(container);
+        }
+        btnEl.disabled = false;
+        btnEl.innerHTML = originalText;
+      });
+    }, 300);
+  }
+</script>
+
+<!--
+  GitHub Pages version:
+  The original salary-slip design and print/PDF template are preserved.
+  Only google.script.run login/password calls were replaced with fetch().
+-->
+</body>
+</html>
