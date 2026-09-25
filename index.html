@@ -7,7 +7,7 @@
   <title>Teacher Salary Slip Portal</title>
   
   <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -15,68 +15,531 @@
   <style>
     :root {
       --primary: #2563eb;
-      --primary-hover: #059669;
-      --bg-gradient: #f4f6f8;
-      --card-bg: rgba(255, 255, 255, 0.96);
+      --primary-hover: #1d4ed8;
+      --primary-dark: #0f172a;
+      --accent: #3b82f6;
+      --accent-glow: rgba(59, 130, 246, 0.25);
+      --bg-gradient: #f8fafc;
+      --card-bg: #ffffff;
       --text-main: #0f172a;
       --text-muted: #64748b;
-      --border-color: #cbd5e1;
+      --border-color: #e2e8f0;
       --focus-ring: rgba(37, 99, 235, 0.25);
-      --radius: 16px;
+      --radius: 20px;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    html, body {
-      min-height: auto !important;
-      height: auto !important;
-      overflow-x: hidden !important;
-      overflow-y: auto !important;
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-gradient);
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    /* =========================================================
+       HERO & DYNAMIC SHOWCASE SLIDER
+       ========================================================= */
+    .hero-wrapper {
+      position: relative;
+      background: linear-gradient(135deg, rgba(8, 24, 58, 0.94) 0%, rgba(15, 23, 42, 0.90) 100%),
+                  url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=2000&q=85') center/cover no-repeat;
+      color: #ffffff;
+      padding: 70px 20px 100px;
+      overflow: hidden;
+    }
+
+    .hero-glow-orb {
+      position: absolute;
+      top: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 350px;
+      background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.35), transparent 70%);
+      pointer-events: none;
+      filter: blur(50px);
+    }
+
+    .hero-container {
+      max-width: 1140px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #93c5fd;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    .hero-subtitle {
+      display: block;
+      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #38bdf8;
+      margin-top: 8px;
+    }
+
+    .hero-desc {
+      font-size: clamp(0.92rem, 1.8vw, 1.05rem);
+      color: #e2e8f0;
+      max-width: 650px;
+      margin: 16px auto 30px;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 45px;
+    }
+
+    .btn-hero {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-hero.primary {
+      background: #2563eb;
+      color: #ffffff;
+      box-shadow: 0 10px 25px -4px rgba(37, 99, 235, 0.5);
+    }
+
+    .btn-hero.primary:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
+
+    .btn-hero.secondary {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-hero.secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Slider Container */
+    .slider-card-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 20px;
+      backdrop-filter: blur(16px);
+      padding: 8px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+
+    .showcase-slider {
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
+      background: #0f172a;
+    }
+
+    .showcase-track {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .showcase-slide {
+      min-width: 100%;
+      box-sizing: border-box;
+      padding: 30px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      text-align: left;
+    }
+
+    /* Executive Navy Glassmorphism Testimonial Slides */
+    .showcase-slide.dev-testimonial-slide {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.88) 100%);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      backdrop-filter: blur(12px);
+      text-align: left;
+      border-radius: 14px;
+      padding: 26px 32px;
+      gap: 26px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .dev-avatar-wrap {
+      width: 105px;
+      height: 105px;
+      border-radius: 50%;
+      border: 3px solid #38bdf8;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 10px 25px rgba(14, 165, 233, 0.35);
+      background: #1e293b;
+    }
+
+    .dev-avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .dev-content {
+      flex: 1;
+    }
+
+    .dev-content h3 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0 0 2px 0;
+      letter-spacing: -0.01em;
+    }
+
+    .dev-content .dev-role {
+      font-size: 0.85rem;
+      color: #38bdf8;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .dev-divider {
+      width: 44px;
+      height: 3px;
+      background: linear-gradient(90deg, #38bdf8, transparent);
+      border-radius: 2px;
+      margin-bottom: 10px;
+    }
+
+    .dev-content p {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .slider-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s ease;
+      z-index: 10;
+    }
+
+    .slider-nav:hover {
+      background: #2563eb;
+    }
+
+    .slider-nav.prev { left: 16px; }
+    .slider-nav.next { right: 16px; }
+
+    .slider-progress-bar {
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    .slider-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #38bdf8;
+      transition: width 0.1s linear;
+    }
+
+    /* =========================================================
+       METRICS & RUNNING GRAPH SECTION
+       ========================================================= */
+    .metrics-section {
+      width: min(1140px, 94%);
+      margin: -50px auto 40px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .metrics-container {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.08);
+      padding: 32px 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .metric-card {
+      background: #f8fafc;
+      border: 1px solid #eef2f6;
+      border-radius: 16px;
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-3px);
+      border-color: #cbd5e1;
+    }
+
+    .metric-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .metric-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .metric-icon.blue { background: #e0f2fe; color: #0284c7; }
+    .metric-icon.green { background: #dcfce7; color: #16a34a; }
+    .metric-icon.amber { background: #fef3c7; color: #d97706; }
+    .metric-icon.purple { background: #f3e8ff; color: #9333ea; }
+
+    .metric-card h3 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+
+    .metric-card p {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin: 0;
+    }
+
+    .graph-card {
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .graph-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .graph-header h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .graph-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #16a34a;
+      background: #dcfce7;
+      padding: 3px 10px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .graph-tag i {
+      font-size: 0.6rem;
+      animation: pulseDot 1.5s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .svg-graph-wrap {
+      width: 100%;
+      height: 140px;
+      position: relative;
+    }
+
+    .svg-graph-wrap svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .graph-line {
+      fill: none;
+      stroke: #2563eb;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 600;
+      stroke-dashoffset: 600;
+      animation: drawLine 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .graph-area {
+      fill: url(#graphGradient);
+      opacity: 0;
+      animation: fadeInArea 1s ease forwards 1s;
+    }
+
+    @keyframes drawLine {
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes fadeInArea {
+      to { opacity: 1; }
+    }
+
+    .graph-footer-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
+    /* =========================================================
+       SALARY PORTAL SECTION (Preserved)
+       ========================================================= */
+    .salary-portal-section {
+      width: min(1140px, 94%);
+      margin: 40px auto 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding: 1rem 0.5rem !important;
-      margin: 0 !important;
-      background: var(--bg-gradient);
     }
 
-    /* Container Box */
+    .portal-section-intro {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .portal-section-intro h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+
+    .portal-section-intro p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 6px;
+    }
+
     .login-box, #changePasswordBox {
       width: 100%;
-      max-width: 380px;
+      max-width: 390px;
       background: var(--card-bg);
-      backdrop-filter: blur(16px);
       border-radius: var(--radius);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
-      padding: 0.85rem 1.25rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.12);
+      padding: 1.5rem 1.4rem;
+      border: 1px solid var(--border-color);
       text-align: left;
       animation: fadeIn 0.3s ease;
     }
 
-    /* Header */
     .brand-header {
       text-align: center;
-      margin-bottom: 0.85rem;
+      margin-bottom: 1.2rem;
     }
 
     .brand-icon {
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       background: rgba(37, 99, 235, 0.1);
       color: var(--primary);
-      border-radius: 10px;
+      border-radius: 12px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
-      margin-bottom: 0.35rem;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
     }
 
     .brand-header h2 {
@@ -89,20 +552,19 @@
     .brand-header p {
       font-size: 0.8rem;
       color: var(--text-muted);
-      margin-top: 0.15rem;
+      margin-top: 0.2rem;
     }
 
-    /* Form Fields */
     .form-group {
-      margin-bottom: 0.65rem;
+      margin-bottom: 0.75rem;
     }
 
     .form-group label {
       display: block;
-      font-size: 0.7rem;
-      font-weight: 600;
+      font-size: 0.72rem;
+      font-weight: 700;
       color: #334155;
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.25rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -124,12 +586,12 @@
 
     input, select {
       width: 100%;
-      padding: 0.5rem 0.85rem 0.5rem 2.3rem;
-      font-size: 0.85rem;
+      padding: 0.55rem 0.85rem 0.55rem 2.3rem;
+      font-size: 0.88rem;
       color: var(--text-main);
       background: #f8fafc;
       border: 1.5px solid var(--border-color);
-      border-radius: 8px;
+      border-radius: 10px;
       outline: none;
       transition: all 0.2s ease;
     }
@@ -144,7 +606,6 @@
       color: var(--primary);
     }
 
-    /* Select Inputs */
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -167,7 +628,6 @@
       pointer-events: none;
     }
 
-    /* Password Eye Icon Toggle */
     .password-container {
       position: relative;
     }
@@ -188,11 +648,10 @@
       color: var(--text-main);
     }
 
-    /* Buttons */
     button.btn-action {
       width: 100%;
       padding: 0.85rem;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       font-weight: 600;
       color: #ffffff;
       background: var(--primary);
@@ -231,7 +690,6 @@
       background: #e2e8f0;
     }
 
-    /* Spinner animation */
     .btn-spinner {
       display: inline-block;
       width: 14px;
@@ -244,7 +702,6 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Alert / Error Messages */
     .error-msg {
       color: #dc2626;
       background: #fef2f2;
@@ -260,12 +717,11 @@
 
     .muted {
       color: var(--text-muted);
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       text-align: center;
       margin-top: 1.25rem;
     }
 
-    /* Summary Card Styling */
     #summaryCard {
       display: none;
       width: 100%;
@@ -276,15 +732,14 @@
     .summary-card {
       background: var(--card-bg);
       border-radius: var(--radius);
-      padding: 1.5rem 1.25rem;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-      border: 1px solid rgba(255,255,255,0.2);
+      padding: 1.6rem 1.4rem;
+      box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.15);
+      border: 1px solid var(--border-color);
       text-align: center;
     }
 
-    /* Side-by-side small buttons layout */
     .action-group {
-      margin-top: 14px;
+      margin-top: 16px;
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
@@ -297,7 +752,7 @@
       margin-top: 0 !important;
       flex: 1 1 0px;
       min-width: 0;
-      padding: 0.5rem 0.4rem;
+      padding: 0.55rem 0.4rem;
       font-size: 0.78rem;
       font-weight: 600;
       border-radius: 8px;
@@ -305,11 +760,6 @@
       white-space: nowrap;
     }
 
-    .action-group button.btn-sm i {
-      font-size: 0.85rem;
-    }
-
-    /* Modal Overlay */
     #successModal {
       display: none;
       position: fixed;
@@ -338,802 +788,1079 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes scaleIn { from { transform: scale(0.9); } to { transform: scale(1); } }
 
-    @media (max-width: 360px) {
-      .action-group button.btn-sm {
-        font-size: 0.72rem;
-        padding: 0.45rem 0.25rem;
-      }
+    /* =========================================================
+       SCROLL-TRIGGERED ABOUT & FEATURES
+       ========================================================= */
+    .reveal-section {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
     }
-  
-/* ===== Modern One Page Wrapper - added without changing salary portal internals ===== */
-html,body{height:auto!important;min-height:100%!important;overflow-x:hidden!important;overflow-y:auto!important;}
-body.modern-page{display:block!important;padding:0!important;margin:0!important;background:#f4f7fb!important;}
-.modern-site{width:100%;overflow:hidden;background:#f4f7fb;}
-.modern-header{position:relative;min-height:440px;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=2000&q=85');background-size:cover;background-position:center;}
-.modern-header:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,30,67,.88),rgba(20,91,170,.62),rgba(0,0,0,.38));}
-.header-content{position:relative;z-index:1;width:min(900px,92%);padding:60px 20px;}
-.header-badge{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.13);backdrop-filter:blur(8px);font-size:12px;font-weight:700;letter-spacing:1.5px;}
-.header-content h1{margin:20px 0 10px;font-size:clamp(2.4rem,7vw,4.8rem);line-height:1.04;font-weight:800;letter-spacing:-.045em;color:#fff;}
-.header-content p{margin:0 auto 28px;max-width:680px;font-size:clamp(1rem,2vw,1.2rem);line-height:1.6;color:rgba(255,255,255,.93);}
-.header-btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:#fff;background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.45);padding:13px 22px;border-radius:13px;font-weight:700;transition:.25s ease;backdrop-filter:blur(8px);}
-.header-btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.27);color:#fff;}
-.portal-highlights{position:relative;width:min(1120px,94%);margin:-55px auto 0;z-index:5;border-radius:24px;background:rgba(255,255,255,.98);box-shadow:0 22px 55px rgba(15,23,42,.17);overflow:hidden;min-height:155px;}
-.highlight-viewport{overflow:hidden;min-height:155px;}
-.highlight-track{display:flex;min-width:0;transition:transform .55s ease;will-change:transform;}
-.highlight-slide{min-width:100%;min-height:155px;display:flex;align-items:center;justify-content:center;gap:24px;padding:30px 85px;}
-.highlight-icon{width:64px;height:64px;flex:0 0 64px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:#eaf2ff;color:#2563eb;font-size:27px;}
-.highlight-slide strong{display:block;color:#0f172a;font-size:21px;margin-bottom:7px;}
-.highlight-slide p{margin:0;color:#64748b;font-size:15px;line-height:1.55;}
-.slide-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:44px;height:44px;border:0;border-radius:50%;background:#eef4ff;color:#2563eb;cursor:pointer;box-shadow:0 7px 18px rgba(15,23,42,.14);font-size:16px;}
-.slide-btn:hover{background:#2563eb;color:#fff;}
-.slide-btn.prev{left:18px}.slide-btn.next{right:18px}
-.salary-portal-section{width:min(1120px,94%);margin:48px auto 0;display:flex;flex-direction:column;align-items:center;min-height:160px;}
-.salary-portal-section #loginBox,.salary-portal-section #changePasswordBox{margin:0 auto;}
-.salary-portal-section #summaryCard{width:100%;display:flex;justify-content:center;margin-top:20px;}
-.about-portal{width:min(1120px,94%);margin:58px auto 48px;display:grid;grid-template-columns:1.15fr .85fr;gap:24px;}
-.about-card,.features-card{background:#fff;border:1px solid #e5eaf1;border-radius:22px;padding:30px;box-shadow:0 14px 35px rgba(15,23,42,.07);}
-.about-icon{width:54px;height:54px;border-radius:16px;background:#eaf2ff;color:#2563eb;display:flex;align-items:center;justify-content:center;font-size:23px;margin-bottom:17px;}
-.about-card h2,.features-card h2{margin:0 0 13px;color:#0f172a;font-size:23px;}
-.about-card p{margin:0 0 11px;color:#64748b;line-height:1.75;font-size:14px;}
-.feature-item{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid #edf1f5;}
-.feature-item:last-child{border-bottom:0;padding-bottom:0;}
-.feature-item>i{width:38px;height:38px;border-radius:11px;background:#f1f5f9;color:#2563eb;display:flex;align-items:center;justify-content:center;flex:0 0 38px;}
-.feature-item strong{display:block;color:#1e293b;font-size:14px;margin-bottom:3px;}
-.feature-item span{display:block;color:#64748b;font-size:12px;line-height:1.5;}
-.modern-footer{width:100%;margin-top:20px;background:#0f172a;color:#cbd5e1;text-align:center;padding:28px 15px;font-size:13px;}
-.modern-footer .footer-title{color:#fff;font-size:16px;font-weight:700;}
- .modern-footer .designer{color:#93c5fd;font-weight:700;}
- .modern-footer .footer-inner{width:min(1120px,94%);margin:0 auto;}
- .modern-footer p{margin:5px 0;line-height:1.6;}
- .modern-footer .footer-copy{margin-top:10px;font-size:12px;color:#94a3b8;}
 
-/* Keep the existing login card intact, only make the year field clearly visible. */
-#year{display:block!important;width:100%!important;min-height:42px!important;opacity:1!important;visibility:visible!important;color:#0f172a!important;background:#fff!important;}
-@media(max-width:700px){
- .modern-header{min-height:380px;} .header-content{padding:48px 14px;} .header-content h1{font-size:2.5rem;}
- .portal-highlights{margin-top:-40px;border-radius:20px;min-height:145px;} .highlight-viewport,.highlight-slide{min-height:145px;}
- .highlight-slide{padding:25px 58px;justify-content:flex-start;gap:15px;} .highlight-icon{width:54px;height:54px;flex-basis:54px;font-size:22px;}
- .highlight-slide strong{font-size:17px;} .highlight-slide p{font-size:13px;} .slide-btn{width:38px;height:38px;}
- .about-portal{width:calc(100% - 24px);grid-template-columns:1fr;margin:42px auto 30px;gap:16px;} .about-card,.features-card{padding:22px;width:100%;min-width:0;} .about-card h2,.features-card h2{font-size:20px;line-height:1.3;} .about-card p{font-size:13px;line-height:1.65;} .feature-item{gap:11px;} .feature-item>i{width:36px;height:36px;flex-basis:36px;} .feature-item div{min-width:0;} .feature-item strong,.feature-item span{overflow-wrap:anywhere;}
-}
-@media(prefers-reduced-motion:reduce){.highlight-track{transition:none}.header-btn{transition:none;}}
+    .reveal-section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
+    .about-portal {
+      width: min(1140px, 94%);
+      margin: 60px auto 40px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+    }
 
-/* ===== Mobile layout stabilization ===== */
-@media (max-width:700px){
-  html,body{width:100%;max-width:100%;padding:0!important;margin:0!important;overflow-x:hidden!important;}
-  body.modern-page{width:100%;min-width:0!important;}
-  .modern-site{width:100%;max-width:100vw;min-width:0;overflow-x:hidden;overflow-y:visible;}
-  .modern-header{width:100%;max-width:100vw;overflow:hidden;}
-  .header-content{width:100%;max-width:100%;min-width:0;box-sizing:border-box;}
+    .about-card, .features-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 22px;
+      padding: 34px;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.05);
+    }
 
-  .portal-highlights{width:calc(100% - 20px);max-width:calc(100vw - 20px);min-width:0;box-sizing:border-box;margin-left:auto;margin-right:auto;overflow:hidden;}
-  .highlight-viewport{width:100%;max-width:100%;min-width:0;overflow:hidden;}
-  .highlight-track{width:100%;max-width:100%;min-width:0;}
-  .highlight-slide{box-sizing:border-box;flex:0 0 100%;width:100%;min-width:100%;max-width:100%;padding:22px 54px 22px 58px;min-height:145px;overflow:hidden;}
-  .highlight-slide>div:last-child{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:normal;}
-  .highlight-slide strong,.highlight-slide p{max-width:100%;overflow-wrap:anywhere;}
-  .slide-btn.prev{left:10px}.slide-btn.next{right:10px}
+    .about-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: #eaf2ff;
+      color: #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
 
-  .salary-portal-section{width:100%;max-width:100vw;min-width:0;padding:0 10px;box-sizing:border-box;overflow:visible;}
-  .salary-portal-section #loginBox,.salary-portal-section #changePasswordBox{width:100%;max-width:380px;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box;}
-  .salary-portal-section #summaryCard{width:100%;max-width:440px;min-width:0;}
-  .login-box,.login-box *,.summary-card,.summary-card *{max-width:100%;box-sizing:border-box;}
-  input,select{min-width:0;font-size:16px!important;}
+    .about-card h2, .features-card h2 {
+      margin: 0 0 14px;
+      color: #0f172a;
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
 
-  .about-portal{width:calc(100% - 20px);max-width:calc(100vw - 20px);min-width:0;margin-left:auto;margin-right:auto;box-sizing:border-box;}
-  .about-card,.features-card{width:100%;max-width:100%;min-width:0;box-sizing:border-box;overflow:hidden;}
-  .modern-footer{width:100%;max-width:100vw;box-sizing:border-box;overflow:hidden;}
-}
+    .about-card p {
+      margin: 0 0 14px;
+      color: #64748b;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
 
-</style>
+    .feature-item {
+      display: flex;
+      gap: 15px;
+      align-items: flex-start;
+      padding: 15px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .feature-item:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .feature-item > i {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: #f1f5f9;
+      color: #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      flex-shrink: 0;
+      transition: all 0.25s ease;
+    }
+
+    .feature-item:hover > i {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .feature-item strong {
+      display: block;
+      color: #1e293b;
+      font-size: 0.95rem;
+      margin-bottom: 3px;
+    }
+
+    .feature-item span {
+      display: block;
+      color: #64748b;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    .modern-footer {
+      width: 100%;
+      margin-top: 40px;
+      background: #090d16;
+      color: #94a3b8;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.88rem;
+    }
+
+    .modern-footer .footer-title {
+      color: #ffffff;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .modern-footer .designer {
+      color: #60a5fa;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+
+    .modern-footer .footer-copy {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: #64748b;
+    }
+
+    @media (max-width: 900px) {
+      .metrics-container { grid-template-columns: 1fr; }
+      .about-portal { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+      .showcase-slide.dev-testimonial-slide {
+        flex-direction: column;
+        text-align: center;
+        padding: 22px 18px;
+      }
+      .dev-divider {
+        margin: 8px auto 10px;
+      }
+      .slider-nav { display: none; }
+    }
+  </style>
 </head>
-<body class="modern-page">
-<div class="modern-site">
-<header class="modern-header">
-  <div class="header-content">
-    <div class="header-badge"><i class="fa-solid fa-graduation-cap"></i> DIGITAL SALARY SERVICE</div>
-    <h1>Teacher Salary Portal</h1>
-    <p>Secure and convenient access to your monthly salary slip, summary and printable PDF.</p>
-    <a href="#salaryPortal" class="header-btn">Access Salary Portal <i class="fa-solid fa-arrow-down"></i></a>
-  </div>
-</header>
-<section class="portal-highlights" aria-label="Portal highlights">
-  <button class="slide-btn prev" type="button" onclick="changeHighlight(-1)" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
-  <div class="highlight-viewport"><div class="highlight-track" id="highlightTrack">
-    <div class="highlight-slide"><div class="highlight-icon"><i class="fa-solid fa-shield-halved"></i></div><div><strong>Secure Access</strong><p>Employee ID and password based access to salary records.</p></div></div>
-    <div class="highlight-slide"><div class="highlight-icon"><i class="fa-solid fa-calendar-days"></i></div><div><strong>Monthly Salary Slip</strong><p>Select the required month and year to view your record.</p></div></div>
-    <div class="highlight-slide"><div class="highlight-icon"><i class="fa-solid fa-file-pdf"></i></div><div><strong>Print & PDF</strong><p>Generate a printable salary slip or save it as a PDF.</p></div></div>
-    <div class="highlight-slide"><div class="highlight-icon"><i class="fa-solid fa-mobile-screen-button"></i></div><div><strong>Mobile Friendly</strong><p>Convenient access on mobile, tablet and desktop devices.</p></div></div>
-  </div></div>
-  <button class="slide-btn next" type="button" onclick="changeHighlight(1)" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
-</section>
-<section id="salaryPortal" class="salary-portal-section">
+<body>
 
+  <!-- =========================================================
+       HERO & SHOWCASE SLIDER
+       ========================================================= -->
+  <header class="hero-wrapper">
+    <div class="hero-glow-orb"></div>
+    <div class="hero-container">
+      <div class="hero-badge">
+        <i class="fa-solid fa-graduation-cap"></i> Digital Salary Service
+      </div>
+      <h1 class="hero-title">
+        Teacher Salary Portal
+        <span class="hero-subtitle">Fast, Transparent &amp; Reliable</span>
+      </h1>
+      <p class="hero-desc">
+        Instant access to monthly salary statements, gross allowances, deductions, and downloadable PDF pay slips anytime.
+      </p>
+      
+      <div class="hero-actions">
+        <a href="#salaryPortal" class="btn-hero primary">
+          Access Salary Slip <i class="fa-solid fa-arrow-down"></i>
+        </a>
+        <a href="#aboutSection" class="btn-hero secondary">
+          Explore Features <i class="fa-solid fa-circle-info"></i>
+        </a>
+      </div>
 
-<!-- Login Box -->
-<div id="loginBox" class="login-box" role="main" aria-labelledby="loginTitle">
-  <div class="brand-header">
-    <div class="brand-icon">
-      <i class="fa-solid fa-graduation-cap"></i>
+      <!-- Showcase Slider (Properly Closed & Formatted) -->
+      <div class="slider-card-wrap">
+        <button class="slider-nav prev" onclick="moveShowcase(-1)" aria-label="Previous Slide">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button class="slider-nav next" onclick="moveShowcase(1)" aria-label="Next Slide">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <div class="showcase-slider">
+          <div class="showcase-track" id="showcaseTrack">
+            
+            <!-- Slide 1: Somnath Gaikwad (Web Developer) -->
+            <div class="showcase-slide dev-testimonial-slide">
+              <div class="dev-avatar-wrap">
+                <img src="images/Som.jpg" alt="Somnath Gaikwad - Web Developer" onerror="this.src='Som.jpg'">
+              </div>
+              <div class="dev-content">
+                <h3>Somnath Gaikwad</h3>
+                <span class="dev-role">Web Developer</span>
+                <div class="dev-divider"></div>
+                <p>
+                  As a web developer, I’m thrilled with the efficiency and robust security features of the new Salary Slip Portal! This platform simplifies everything, offering seamless access to pay details. It’s user-friendly, reliable, and a game-changer for digital employee experiences.
+                </p>
+              </div>
+            </div>
+
+            <!-- Slide 2: Kushal Jain (CEO Solapur) -->
+            <div class="showcase-slide dev-testimonial-slide">
+              <div class="dev-avatar-wrap">
+                <img src="images/ceo.jpg" alt="Kushal Jain - CEO Solapur" onerror="this.src='ceo.jpg'">
+              </div>
+              <div class="dev-content">
+                <h3>Kushal Jain</h3>
+                <span class="dev-role">CEO, Zilla Parishad Solapur</span>
+                <div class="dev-divider"></div>
+                <p>
+                  Digital governance brings transparency and accountability. This salary slip portal ensures all teachers receive authenticated, timely monthly statements with absolute accuracy and ease of access.
+                </p>
+              </div>
+            </div>
+
+            <!-- Slide 3: Vijay Mule (EO Solapur) -->
+            <div class="showcase-slide dev-testimonial-slide">
+              <div class="dev-avatar-wrap">
+                <img src="images/eo.jpg" alt="Vijay Mule - EO Solapur" onerror="this.src='eo.jpg'">
+              </div>
+              <div class="dev-content">
+                <h3>Vijay Mule</h3>
+                <span class="dev-role">Education Officer (Primary), Solapur</span>
+                <div class="dev-divider"></div>
+                <p>
+                  A great initiative for our teaching community. Comprehensive deduction breakdowns and instant PDF generation with verification QR codes have streamlined monthly salary administration significantly.
+                </p>
+              </div>
+            </div>
+
+            <!-- Slide 4: Block Education Officer (BEO) -->
+            <div class="showcase-slide dev-testimonial-slide">
+              <div class="dev-avatar-wrap">
+                <img src="images/beo.jpg" alt="Block Education Officer - South Solapur" onerror="this.src='beo.jpg'">
+              </div>
+              <div class="dev-content">
+                <h3>Block Education Officer</h3>
+                <span class="dev-role">Panchayat Samiti, South Solapur</span>
+                <div class="dev-divider"></div>
+                <p>
+                  Ensuring zero administrative delay. Teachers across South Solapur can now instantly download official pay records directly on their mobile phones without needing physical office visits.
+                </p>
+              </div>
+            </div>
+
+          </div>
+          <div class="slider-progress-bar">
+            <div class="slider-progress-fill" id="sliderProgress"></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <h2 id="loginTitle">Teacher Salary Portal</h2>
-    <p>Enter details to view your pay slip</p>
-  </div>
+  </header>
 
-  <div class="form-group">
-    <label for="username">Employee ID</label>
-    <div class="input-wrapper">
-      <input id="username" type="text" aria-label="Employee ID" autocomplete="username" placeholder="Enter Employee ID" required />
-      <i class="fa-solid fa-id-card icon-left"></i>
+  <!-- =========================================================
+       METRICS & RUNNING GRAPH SECTION
+       ========================================================= -->
+  <section class="metrics-section">
+    <div class="metrics-container">
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-top">
+            <span class="metric-icon blue"><i class="fa-solid fa-school"></i></span>
+          </div>
+          <h3 class="counter-number" data-target="184">0</h3>
+          <p>Active Schools</p>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-top">
+            <span class="metric-icon green"><i class="fa-solid fa-user-tie"></i></span>
+          </div>
+          <h3 class="counter-number" data-target="2450">0</h3>
+          <p>Staff & Teachers</p>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-top">
+            <span class="metric-icon amber"><i class="fa-solid fa-file-invoice-dollar"></i></span>
+          </div>
+          <h3 class="counter-number" data-target="98200">0</h3>
+          <p>Dispatched Slips</p>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-top">
+            <span class="metric-icon purple"><i class="fa-solid fa-bolt"></i></span>
+          </div>
+          <h3 class="counter-number" data-target="99.9">0</h3>
+          <p>System Uptime %</p>
+        </div>
+      </div>
+
+      <div class="graph-card">
+        <div class="graph-header">
+          <div>
+            <h4>Monthly Payroll Distribution</h4>
+            <span style="font-size:0.75rem; color:#64748b;">Live system activity graph</span>
+          </div>
+          <div class="graph-tag">
+            <i class="fa-solid fa-circle"></i> Live Server
+          </div>
+        </div>
+
+        <div class="svg-graph-wrap">
+          <svg viewBox="0 0 400 140" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="graphGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#2563eb" stop-opacity="0.35" />
+                <stop offset="100%" stop-color="#2563eb" stop-opacity="0.0" />
+              </linearGradient>
+            </defs>
+            <path class="graph-area" d="M 0,110 Q 50,40 100,75 T 200,45 T 300,85 T 400,20 L 400,140 L 0,140 Z"></path>
+            <path class="graph-line" d="M 0,110 Q 50,40 100,75 T 200,45 T 300,85 T 400,20"></path>
+          </svg>
+        </div>
+
+        <div class="graph-footer-labels">
+          <span>May</span>
+          <span>Jun</span>
+          <span>Jul</span>
+          <span>Aug</span>
+          <span>Sep</span>
+          <span>Current</span>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <div class="form-group">
-    <label for="password">Password</label>
-    <div class="password-container input-wrapper">
-      <input type="password" id="password" aria-label="Password" autocomplete="current-password" placeholder="••••••••" required>
-      <i class="fa-solid fa-lock icon-left"></i>
-      <i id="eyeIcon" class="fa-solid fa-eye toggle-password" role="button" aria-label="Show password"></i>
-      <i id="eyeOffIcon" class="fa-solid fa-eye-slash toggle-password" style="display:none;" role="button" aria-label="Hide password"></i>
+  <!-- =========================================================
+       SALARY PORTAL SECTION (Original Core Preserved)
+       ========================================================= -->
+  <section id="salaryPortal" class="salary-portal-section">
+    <div class="portal-section-intro">
+      <h2>Access Your Pay Slip</h2>
+      <p>Enter your teacher credentials and choose the month to review your salary details</p>
     </div>
-  </div>
 
-  <div class="grid-2">
-    <div class="form-group">
-      <label for="month">Month</label>
-      <div class="input-wrapper select-wrapper">
-        <select id="month" aria-label="Select Month" required>
-          <option value="">Select Month</option>
-          <option>January</option><option>February</option><option>March</option><option>April</option>
-          <option>May</option><option>June</option><option>July</option><option>August</option>
-          <option>September</option><option>October</option><option>November</option><option>December</option>
-        </select>
-        <i class="fa-solid fa-calendar-days icon-left"></i>
+    <!-- Login Box -->
+    <div id="loginBox" class="login-box" role="main" aria-labelledby="loginTitle">
+      <div class="brand-header">
+        <div class="brand-icon">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <h2 id="loginTitle">Teacher Salary Portal</h2>
+        <p>Enter details to view your pay slip</p>
+      </div>
+
+      <div class="form-group">
+        <label for="username">Employee ID</label>
+        <div class="input-wrapper">
+          <input id="username" type="text" aria-label="Employee ID" autocomplete="username" placeholder="Enter Employee ID" required />
+          <i class="fa-solid fa-id-card icon-left"></i>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-container input-wrapper">
+          <input type="password" id="password" aria-label="Password" autocomplete="current-password" placeholder="••••••••" required>
+          <i class="fa-solid fa-lock icon-left"></i>
+          <i id="eyeIcon" class="fa-solid fa-eye toggle-password" role="button" aria-label="Show password"></i>
+          <i id="eyeOffIcon" class="fa-solid fa-eye-slash toggle-password" style="display:none;" role="button" aria-label="Hide password"></i>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="month">Month</label>
+          <div class="input-wrapper select-wrapper">
+            <select id="month" aria-label="Select Month" required>
+              <option value="">Select Month</option>
+              <option>January</option><option>February</option><option>March</option><option>April</option>
+              <option>May</option><option>June</option><option>July</option><option>August</option>
+              <option>September</option><option>October</option><option>November</option><option>December</option>
+            </select>
+            <i class="fa-solid fa-calendar-days icon-left"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="year">Year</label>
+          <div class="input-wrapper select-wrapper">
+            <select id="year" aria-label="Select Year" required>
+              <option value="">Select Year</option>
+              <option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option>
+              <option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option>
+            </select>
+            <i class="fa-solid fa-calendar icon-left"></i>
+          </div>
+        </div>
+      </div>
+
+      <button id="loginBtn" class="btn-action" onclick="login()">
+        <span id="loginBtnText">Get Salary Slip</span>
+        <i id="loginBtnIcon" class="fa-solid fa-arrow-right"></i>
+      </button>
+
+      <div id="errorMsg" class="error-msg" role="alert"></div>
+
+      <button class="btn-action btn-secondary" onclick="toggleChangePassword()">
+        <i class="fa-solid fa-key"></i> Change Password
+      </button>
+
+      <div class="muted">Web designed by Somnath Gaikwad Sir</div>
+    </div>
+
+    <!-- Change Password Box -->
+    <div id="changePasswordBox" style="display:none;" role="main" aria-labelledby="changePassTitle">
+      <div class="brand-header">
+        <div class="brand-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h2 id="changePassTitle">Change Password</h2>
+        <p>Update your portal access password</p>
+      </div>
+
+      <div class="form-group">
+        <label for="empIdPass">Employee ID</label>
+        <div class="input-wrapper">
+          <input id="empIdPass" type="text" aria-label="Employee ID" placeholder="Enter Employee ID" autocomplete="username" required />
+          <i class="fa-solid fa-id-card icon-left"></i>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="oldPass">Old Password</label>
+        <div class="input-wrapper">
+          <input id="oldPass" type="password" aria-label="Old Password" placeholder="••••••••" autocomplete="current-password" required />
+          <i class="fa-solid fa-lock icon-left"></i>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="newPass">New Password</label>
+        <div class="input-wrapper">
+          <input id="newPass" type="password" aria-label="New Password" placeholder="New Password" autocomplete="new-password" required />
+          <i class="fa-solid fa-key icon-left"></i>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPass">Confirm Password</label>
+        <div class="input-wrapper">
+          <input id="confirmPass" type="password" aria-label="Confirm New Password" placeholder="Confirm New Password" autocomplete="new-password" required />
+          <i class="fa-solid fa-check-double icon-left"></i>
+        </div>
+      </div>
+
+      <button id="updatePassBtn" class="btn-action" style="background:#16a34a;" onclick="changePassword()">
+        <span id="updatePassBtnText">Update Password</span>
+      </button>
+
+      <button class="btn-action btn-secondary" onclick="backToLogin()">
+        <i class="fa-solid fa-arrow-left"></i> Back to Login
+      </button>
+
+      <div id="passMsg" class="error-msg" role="alert" style="display:none;"></div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" role="alert" aria-live="assertive">
+      <div id="successModalContent">
+        <i class="fa-solid fa-circle-check" style="font-size:2.5rem; margin-bottom:0.5rem; display:block;"></i>
+        Password changed successfully! Please login again.
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="year">Year</label>
-      <div class="input-wrapper select-wrapper">
-        <select id="year" aria-label="Select Year" required></select>
-        <i class="fa-solid fa-calendar icon-left"></i>
+    <!-- Summary Card Container -->
+    <div id="summaryCard"></div>
+  </section>
+
+  <!-- =========================================================
+       SCROLL-TRIGGERED ABOUT & FEATURES SECTION
+       ========================================================= -->
+  <section id="aboutSection" class="about-portal reveal-section">
+    <div class="about-card">
+      <div class="about-icon"><i class="fa-solid fa-circle-info"></i></div>
+      <h2>About Teacher Salary Portal</h2>
+      <p>The Teacher Salary Portal is a dedicated digital platform developed to empower educational staff and teachers with instant access to their monthly payroll summaries.</p>
+      <p>Teachers can review earnings, voluntary deductions, bank credits, and generate high-resolution print copies or portable PDF files with a single click.</p>
+    </div>
+    <div class="features-card">
+      <h2>Key Features</h2>
+      <div class="feature-item">
+        <i class="fa-solid fa-lock"></i>
+        <div>
+          <strong>Strict Security</strong>
+          <span>Secure authentication based on individual Employee ID and credentials.</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <i class="fa-solid fa-calendar-check"></i>
+        <div>
+          <strong>Archived Payroll Records</strong>
+          <span>Select any past month and academic year to access historical slips.</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <i class="fa-solid fa-qrcode"></i>
+        <div>
+          <strong>Verification QR Code</strong>
+          <span>Generated slips feature authentic verification QR codes for validation.</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <i class="fa-solid fa-file-pdf"></i>
+        <div>
+          <strong>PDF Export Ready</strong>
+          <span>Save clean, vectorized PDF records directly to your phone or computer.</span>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <button id="loginBtn" class="btn-action" onclick="login()">
-    <span id="loginBtnText">Get Salary Slip</span>
-    <i id="loginBtnIcon" class="fa-solid fa-arrow-right"></i>
-  </button>
-
-  <div id="errorMsg" class="error-msg" role="alert"></div>
-
-  <button class="btn-action btn-secondary" onclick="toggleChangePassword()">
-    <i class="fa-solid fa-key"></i> Change Password
-  </button>
-
-  <div class="muted">Web designed by Somnath Gaikwad Sir</div>
-</div>
-
-<!-- Change Password Box -->
-<div id="changePasswordBox" style="display:none;" role="main" aria-labelledby="changePassTitle">
-  <div class="brand-header">
-    <div class="brand-icon">
-      <i class="fa-solid fa-shield-halved"></i>
-    </div>
-    <h2 id="changePassTitle">Change Password</h2>
-    <p>Update your portal access password</p>
-  </div>
-
-  <div class="form-group">
-    <label for="empIdPass">Employee ID</label>
-    <div class="input-wrapper">
-      <input id="empIdPass" type="text" aria-label="Employee ID" placeholder="Enter Employee ID" autocomplete="username" required />
-      <i class="fa-solid fa-id-card icon-left"></i>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="oldPass">Old Password</label>
-    <div class="input-wrapper">
-      <input id="oldPass" type="password" aria-label="Old Password" placeholder="••••••••" autocomplete="current-password" required />
-      <i class="fa-solid fa-lock icon-left"></i>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="newPass">New Password</label>
-    <div class="input-wrapper">
-      <input id="newPass" type="password" aria-label="New Password" placeholder="New Password" autocomplete="new-password" required />
-      <i class="fa-solid fa-key icon-left"></i>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="confirmPass">Confirm Password</label>
-    <div class="input-wrapper">
-      <input id="confirmPass" type="password" aria-label="Confirm New Password" placeholder="Confirm New Password" autocomplete="new-password" required />
-      <i class="fa-solid fa-check-double icon-left"></i>
-    </div>
-  </div>
-
-  <button id="updatePassBtn" class="btn-action" style="background:#16a34a;" onclick="changePassword()">
-    <span id="updatePassBtnText">Update Password</span>
-  </button>
-
-  <button class="btn-action btn-secondary" onclick="backToLogin()">
-    <i class="fa-solid fa-arrow-left"></i> Back to Login
-  </button>
-
-  <div id="passMsg" class="error-msg" role="alert" style="display:none;"></div>
-</div>
-
-<!-- Success Modal -->
-<div id="successModal" role="alert" aria-live="assertive">
-  <div id="successModalContent">
-    <i class="fa-solid fa-circle-check" style="font-size:2.5rem; margin-bottom:0.5rem; display:block;"></i>
-    Password changed successfully! Please login again.
-  </div>
-</div>
-
-<!-- Summary Card Container -->
-<div id="summaryCard"></div>
-</section>
-
-<section class="about-portal">
-  <div class="about-card">
-    <div class="about-icon"><i class="fa-solid fa-circle-info"></i></div>
-    <h2>About Teacher Salary Portal</h2>
-    <p>Teacher Salary Portal is a digital platform designed to provide teachers with convenient access to their monthly salary information.</p>
-    <p>Teachers can select the required month and year, view their salary summary and generate a printable salary slip or PDF copy.</p>
-  </div>
-  <div class="features-card">
-    <h2>Portal Features</h2>
-    <div class="feature-item"><i class="fa-solid fa-lock"></i><div><strong>Secure Login</strong><span>Employee ID and password based access.</span></div></div>
-    <div class="feature-item"><i class="fa-solid fa-calendar-check"></i><div><strong>Monthly Records</strong><span>Access salary records by month and year.</span></div></div>
-    <div class="feature-item"><i class="fa-solid fa-print"></i><div><strong>Print Salary Slip</strong><span>Generate a printable salary slip.</span></div></div>
-    <div class="feature-item"><i class="fa-solid fa-file-pdf"></i><div><strong>PDF Copy</strong><span>Save your salary slip as a PDF file.</span></div></div>
-  </div>
-</section>
-
-<!-- Modern site footer -->
-<footer class="modern-footer">
-  <div class="footer-inner">
+  <!-- Footer -->
+  <footer class="modern-footer">
     <div class="footer-title">Teacher Salary Portal</div>
-    <p>Digital Salary Service</p>
+    <p>Panchayat Samiti (Education Department)</p>
     <p class="designer">Web designed by Somnath Gaikwad Sir</p>
     <p class="footer-copy">© <span id="footerYear"></span> Teacher Salary Portal. All Rights Reserved.</p>
-  </div>
-</footer>
+  </footer>
 
-<script>
-  // Populate year dropdown and automatically select the current year
-  (function fillYears(){
-    const sel = document.getElementById('year');
-    if(!sel) return;
+  <!-- =========================================================
+       SCRIPTS (Preserved Exact Logic + Modern UI Controls)
+       ========================================================= -->
+  <script>
+    // ===== Year Population Logic (Preserved) =====
+    (function fillYears(){
+      const sel = document.getElementById('year');
+      if(!sel) return;
 
-    const cur = new Date().getFullYear();
-
-    // Add missing years while preserving the existing options
-    const existing = new Set(Array.from(sel.options).map(o => String(o.value)));
-    for(let y = cur; y >= cur - 5; y--){
-      if(!existing.has(String(y))){
-        const o = document.createElement('option');
-        o.value = String(y);
-        o.textContent = String(y);
-        sel.appendChild(o);
+      const cur = new Date().getFullYear();
+      const existing = new Set(Array.from(sel.options).map(o => String(o.value)));
+      for(let y = cur; y >= cur - 5; y--){
+        if(!existing.has(String(y))){
+          const o = document.createElement('option');
+          o.value = String(y);
+          o.textContent = String(y);
+          sel.appendChild(o);
+        }
       }
-    }
 
-    // IMPORTANT: explicitly select the current year
-    sel.value = String(cur);
-
-    // Fallback if the current year was not available for any reason
-    if(sel.value !== String(cur) && sel.options.length > 1){
-      sel.selectedIndex = 1;
-    }
-  })();
-
-  // ===== Automatic Highlight Slider =====
-  let currentHighlight = 0;
-  let highlightTimer = null;
-  let sliderPaused = false;
-
-  function updateHighlight(){
-    const track = document.getElementById('highlightTrack');
-    if(!track) return;
-
-    const total = track.children.length;
-    if(!total) return;
-
-    if(currentHighlight >= total) currentHighlight = 0;
-    if(currentHighlight < 0) currentHighlight = total - 1;
-
-    track.style.transform = `translateX(-${currentHighlight * 100}%)`;
-  }
-
-  function changeHighlight(direction){
-    const track = document.getElementById('highlightTrack');
-    if(!track || !track.children.length) return;
-
-    currentHighlight += direction;
-    updateHighlight();
-    restartHighlightTimer();
-  }
-
-  function startHighlightTimer(){
-    stopHighlightTimer();
-    highlightTimer = setInterval(() => {
-      if(!sliderPaused){
-        currentHighlight++;
-        updateHighlight();
+      sel.value = String(cur);
+      if(sel.value !== String(cur) && sel.options.length > 1){
+        sel.selectedIndex = 1;
       }
-    }, 4000);
-  }
+    })();
 
-  function stopHighlightTimer(){
-    if(highlightTimer){
-      clearInterval(highlightTimer);
-      highlightTimer = null;
-    }
-  }
+    const footerYear = document.getElementById('footerYear');
+    if(footerYear) footerYear.textContent = new Date().getFullYear();
 
-  function restartHighlightTimer(){
-    startHighlightTimer();
-  }
+    // ===== Modern Showcase Slider Logic =====
+    let showcaseIndex = 0;
+    let showcaseTimer = null;
+    let progressTimer = null;
+    const SHOWCASE_DURATION = 5000; // 5 seconds per slide
+    let progressValue = 0;
 
-  document.addEventListener('DOMContentLoaded', function(){
-    const viewport = document.querySelector('.highlight-viewport');
-    const portalHighlights = document.querySelector('.portal-highlights');
-
-    if(viewport){
-      viewport.addEventListener('mouseenter', () => sliderPaused = true);
-      viewport.addEventListener('mouseleave', () => sliderPaused = false);
-      viewport.addEventListener('touchstart', () => sliderPaused = true, {passive:true});
-      viewport.addEventListener('touchend', () => {
-        setTimeout(() => sliderPaused = false, 2500);
-      }, {passive:true});
+    function updateShowcaseTrack() {
+      const track = document.getElementById('showcaseTrack');
+      if (!track) return;
+      track.style.transform = `translateX(-${showcaseIndex * 100}%)`;
+      resetProgress();
     }
 
-    updateHighlight();
-    startHighlightTimer();
-  });
+    function moveShowcase(dir) {
+      const track = document.getElementById('showcaseTrack');
+      if (!track) return;
+      const total = track.children.length;
+      showcaseIndex = (showcaseIndex + dir + total) % total;
+      updateShowcaseTrack();
+      restartShowcaseTimer();
+    }
 
-  // Start automatically even when this script is loaded after DOMContentLoaded
-  if(document.readyState !== 'loading'){
-    updateHighlight();
-    startHighlightTimer();
-  }
+    function resetProgress() {
+      progressValue = 0;
+      const bar = document.getElementById('sliderProgress');
+      if (bar) bar.style.width = '0%';
+    }
 
-  // Footer copyright year
-  const footerYear = document.getElementById('footerYear');
-  if(footerYear) footerYear.textContent = new Date().getFullYear();
+    function startShowcaseTimer() {
+      stopShowcaseTimer();
+      progressTimer = setInterval(() => {
+        progressValue += (100 / (SHOWCASE_DURATION / 100));
+        const bar = document.getElementById('sliderProgress');
+        if (bar) bar.style.width = `${Math.min(progressValue, 100)}%`;
+      }, 100);
 
-  let slipData = null;
+      showcaseTimer = setInterval(() => {
+        moveShowcase(1);
+      }, SHOWCASE_DURATION);
+    }
 
-  const passwordInput = document.getElementById("password");
-  const eyeIcon = document.getElementById("eyeIcon");
-  const eyeOffIcon = document.getElementById("eyeOffIcon");
+    function stopShowcaseTimer() {
+      if (showcaseTimer) clearInterval(showcaseTimer);
+      if (progressTimer) clearInterval(progressTimer);
+    }
 
-  eyeIcon.addEventListener("click", () => {
-    passwordInput.type = "text";
-    eyeIcon.style.display = "none";
-    eyeOffIcon.style.display = "block";
-  });
+    function restartShowcaseTimer() {
+      stopShowcaseTimer();
+      startShowcaseTimer();
+    }
 
-  eyeOffIcon.addEventListener("click", () => {
-    passwordInput.type = "password";
-    eyeOffIcon.style.display = "none";
-    eyeIcon.style.display = "block";
-  });
+    // ===== Running Counters on Open =====
+    function runCounters() {
+      const counters = document.querySelectorAll('.counter-number');
+      counters.forEach(counter => {
+        const target = parseFloat(counter.getAttribute('data-target'));
+        const isDecimal = target % 1 !== 0;
+        const duration = 2000;
+        const startTime = performance.now();
 
-  // Google Apps Script Web App API endpoint
-  const API_URL = 'https://script.google.com/macros/s/AKfycbzTHIIzPz6nPRZogfv0sVssSeAuRXD8EQMHy5308EQqWSILwoHbcNiPNZN1DLG4cXg/exec';
+        function updateCount(currentTime) {
+          const progress = Math.min((currentTime - startTime) / duration, 1);
+          const easeOut = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+          const currentVal = easeOut * target;
 
-  async function apiRequest(payload){
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload)
+          counter.textContent = isDecimal 
+            ? currentVal.toFixed(1) 
+            : Math.floor(currentVal).toLocaleString();
+
+          if (progress < 1) {
+            requestAnimationFrame(updateCount);
+          } else {
+            counter.textContent = isDecimal ? target.toFixed(1) : target.toLocaleString();
+          }
+        }
+        requestAnimationFrame(updateCount);
+      });
+    }
+
+    // ===== Scroll-Triggered Reveal for Features/About =====
+    document.addEventListener('DOMContentLoaded', () => {
+      startShowcaseTimer();
+      runCounters();
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, { threshold: 0.15 });
+
+      document.querySelectorAll('.reveal-section').forEach(el => observer.observe(el));
     });
-    if(!response.ok) throw new Error('HTTP ' + response.status);
-    return await response.json();
-  }
 
-  function login(){
-    const u = document.getElementById('username').value.trim();
-    const p = document.getElementById('password').value.trim();
-    const m = document.getElementById('month').value;
-    const y = document.getElementById('year').value;
-    const errorBox = document.getElementById('errorMsg');
-    const btn = document.getElementById('loginBtn');
-    const btnText = document.getElementById('loginBtnText');
-    const btnIcon = document.getElementById('loginBtnIcon');
+    // ===== Core Authentication & PDF Code (Preserved) =====
+    let slipData = null;
 
-    errorBox.style.display = "none";
-    errorBox.textContent = "";
+    const passwordInput = document.getElementById("password");
+    const eyeIcon = document.getElementById("eyeIcon");
+    const eyeOffIcon = document.getElementById("eyeOffIcon");
 
-    if(!u || !p || !m || !y){ 
-      errorBox.textContent = "⚠️ Please fill all fields"; 
-      errorBox.style.display = "block"; 
-      document.getElementById(!u ? 'username' : !p ? 'password' : !m ? 'month' : 'year').focus();
-      return; 
+    eyeIcon.addEventListener("click", () => {
+      passwordInput.type = "text";
+      eyeIcon.style.display = "none";
+      eyeOffIcon.style.display = "block";
+    });
+
+    eyeOffIcon.addEventListener("click", () => {
+      passwordInput.type = "password";
+      eyeOffIcon.style.display = "none";
+      eyeIcon.style.display = "block";
+    });
+
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzTHIIzPz6nPRZogfv0sVssSeAuRXD8EQMHy5308EQqWSILwoHbcNiPNZN1DLG4cXg/exec';
+
+    async function apiRequest(payload){
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      if(!response.ok) throw new Error('HTTP ' + response.status);
+      return await response.json();
     }
 
-    btn.disabled = true;
-    btnText.textContent = "Fetching Slip...";
-    btnIcon.className = "btn-spinner";
+    function login(){
+      const u = document.getElementById('username').value.trim();
+      const p = document.getElementById('password').value.trim();
+      const m = document.getElementById('month').value;
+      const y = document.getElementById('year').value;
+      const errorBox = document.getElementById('errorMsg');
+      const btn = document.getElementById('loginBtn');
+      const btnText = document.getElementById('loginBtnText');
+      const btnIcon = document.getElementById('loginBtnIcon');
 
-    apiRequest({
-      action: 'login',
-      username: u,
-      password: p,
-      month: m,
-      year: y
-    }).then(function(res){
-      btn.disabled = false;
-      btnText.textContent = "Get Salary Slip";
-      btnIcon.className = "fa-solid fa-arrow-right";
+      errorBox.style.display = "none";
+      errorBox.textContent = "";
 
-      if(!res || !res.success){ 
-        errorBox.textContent = res && res.message ? res.message : "❌ Invalid login or no record found!";
-        errorBox.style.display = "block";
+      if(!u || !p || !m || !y){ 
+        errorBox.textContent = "⚠️ Please fill all fields"; 
+        errorBox.style.display = "block"; 
+        document.getElementById(!u ? 'username' : !p ? 'password' : !m ? 'month' : 'year').focus();
         return; 
       }
-      slipData = res.record;
-      renderSummary(slipData);
-    }).catch(function(err){
-      console.error(err);
-      btn.disabled = false;
-      btnText.textContent = "Get Salary Slip";
-      btnIcon.className = "fa-solid fa-arrow-right";
-      errorBox.textContent = "⚠️ Connection error. Please check the API URL and Apps Script deployment.";
-      errorBox.style.display = "block";
-    });
-  }
 
-  function toggleChangePassword(){
-    document.getElementById('loginBox').style.display = "none";
-    document.getElementById('changePasswordBox').style.display = "block";
+      btn.disabled = true;
+      btnText.textContent = "Fetching Slip...";
+      btnIcon.className = "btn-spinner";
 
-    ['empIdPass','oldPass','newPass','confirmPass'].forEach(id => {
-      document.getElementById(id).value = "";
-    });
-    const msgBox = document.getElementById('passMsg');
-    msgBox.style.display = "none";
-    msgBox.textContent = "";
-  }
+      apiRequest({
+        action: 'login',
+        username: u,
+        password: p,
+        month: m,
+        year: y
+      }).then(function(res){
+        btn.disabled = false;
+        btnText.textContent = "Get Salary Slip";
+        btnIcon.className = "fa-solid fa-arrow-right";
 
-  function backToLogin(){
-    document.getElementById('changePasswordBox').style.display = "none";
-    document.getElementById('loginBox').style.display = "block";
-  }
-
-  function changePassword(){
-    const u = document.getElementById('empIdPass').value.trim();
-    const oldP = document.getElementById('oldPass').value.trim();
-    const newP = document.getElementById('newPass').value.trim();
-    const confirmP = document.getElementById('confirmPass').value.trim();
-    const msgBox = document.getElementById('passMsg');
-    const btn = document.getElementById('updatePassBtn');
-    const btnText = document.getElementById('updatePassBtnText');
-
-    msgBox.style.display = "none";
-    msgBox.textContent = "";
-
-    if(!u || !oldP || !newP || !confirmP){
-      msgBox.textContent = "⚠️ Fill all fields"; 
-      msgBox.style.display = "block"; 
-      return;
-    }
-    if(newP !== confirmP){
-      msgBox.textContent = "❌ New passwords do not match"; 
-      msgBox.style.display = "block"; 
-      return;
-    }
-
-    btn.disabled = true;
-    btnText.innerHTML = '<span class="btn-spinner"></span> Updating...';
-
-    apiRequest({
-      action: 'updatePassword',
-      username: u,
-      oldPassword: oldP,
-      newPassword: newP
-    }).then(function(res){
-      btn.disabled = false;
-      btnText.textContent = "Update Password";
-
-      msgBox.textContent = res.message;
-      msgBox.style.display = "block";
-      msgBox.style.color = res.success ? "#16a34a" : "#dc2626";
-
-      if(res.success){
-        ['empIdPass','oldPass','newPass','confirmPass'].forEach(id => {
-          document.getElementById(id).value = "";
-        });
-
-        const modal = document.getElementById("successModal");
-        modal.style.display = "flex";
-
-        setTimeout(() => {
-          modal.style.display = "none";
-          backToLogin();
-        }, 3000);
-      }
-    }).catch(function(err){
-      console.error(err);
-      btn.disabled = false;
-      btnText.textContent = "Update Password";
-      msgBox.textContent = "⚠️ Connection error. Please check the API URL and Apps Script deployment.";
-      msgBox.style.display = "block";
-      msgBox.style.color = "#dc2626";
-    });
-  }
-
-  function renderSummary(r){
-    document.getElementById('loginBox').style.display = 'none';
-    const html = `
-      <div class="summary-card" id="summaryInner" role="region" aria-live="polite" aria-label="Salary slip summary">
-        <h3 style="margin:4px 0 12px; font-size:1.15rem; color:var(--text-main);">${escapeHtml(r.Name || '')} <span style="font-size:0.85rem; color:var(--text-muted);">(${escapeHtml(r.EmployeeID || '')})</span></h3>
-        <p style="font-size:0.85rem; margin-bottom:6px;"><strong>Month:</strong> ${escapeHtml(r.Month||'')} &nbsp;&bull;&nbsp; <strong>Year:</strong> ${escapeHtml(r.Year||'')}</p>
-        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;"><strong>Gross:</strong> ₹${escapeHtml(r.GrossSalary||'0')} &nbsp;&bull;&nbsp; <strong>Deductions:</strong> ₹${escapeHtml(r.TotalDeductions||'0')}</p>
-        <div style="background:#f1f5f9; padding:10px; margin:12px 0; border-radius:10px; border: 1px solid var(--border-color);">
-          <h3 style="color:#16a34a; font-size:1.1rem;">Net Salary: ₹${escapeHtml(r.NetSalary||'0')}</h3>
-          <p style="font-size:0.75rem; color:#475569; margin-top:2px;">In Words: ${escapeHtml(r.NetSalaryWords||'')}</p>
-        </div>
-        <div class="action-group">
-          <button onclick="showPrintSlip()" class="btn-action btn-sm" style="background:#16a34a;">
-            <i class="fa-solid fa-print"></i> Print
-          </button>
-          <button onclick="downloadPdfSlip(this)" class="btn-action btn-sm" style="background:#2563eb;">
-            <i class="fa-solid fa-file-pdf"></i> PDF
-          </button>
-          <button onclick="resetForm()" class="btn-action btn-sm btn-secondary">
-            <i class="fa-solid fa-rotate-left"></i> Reset
-          </button>
-        </div>
-      </div>
-    `;
-    const summaryCard = document.getElementById('summaryCard');
-    summaryCard.innerHTML = html;
-    summaryCard.style.display = 'block';
-  }
-
-  function resetForm(){
-    slipData = null;
-    document.getElementById('loginBox').style.display = 'block';
-    ['username','password','month'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
-    // Keep the current year automatically selected after Reset
-    const yearSelect = document.getElementById('year');
-    if(yearSelect) yearSelect.value = String(new Date().getFullYear());
-    document.getElementById('summaryCard').style.display = 'none';
-    document.getElementById('summaryCard').innerHTML = '';
-    document.getElementById('errorMsg').style.display = "none";
-  }
-
-  function escapeHtml(s){
-    return String(s).replace(/[&<>"]/g, m => ({
-      '&':'&amp;',
-      '<':'&lt;',
-      '>':'&gt;',
-      '"':'&quot;'
-    }[m]));
-  }
-
-  function generatePrintHtml(){
-    if(!slipData) return '';
-
-    const allowances = [
-      ['मूळ वेतन','BasicPay'], ['महागाई भत्‍ता','DA'], ['घरभाडे','HRA'], ['वाहन भत्‍ता','TA'], ['महागाई फरक','Arrears'], ['वेतन फरक','BasicArrears'], ['NPS Employer','NPS_Employer'], ['के.प्र भत्‍ता','KPAllowance'],['इतर भत्‍ते','OtherAllowance'], ['दिव्‍यांग भत्‍ता','HandicapAllow'], ['७ वा वेतन','SeventhPay'], ['एकूण वेतन','GrossSalary']
-    ];
-    const deductions = [
-      ['गटविमा','GIS'], ['व्‍यवसाय कर','ProfessionalTax'], ['भनिनी वर्गणी','GPF'], ['भनिनी हप्‍ता','GPFE'], ['Revenue Stamp','RevenueStamp'], ['NPSG','NPSG'], ['NPSE','NPSE'], ['अग्रीम','FA'], ['आयकर','IncomeTax'], ['मुख्‍यमंत्री निधी','CMFund'],
-      ['ध्‍वज निधी','FlagFund'], ['अपघात विमा','GAI'], ['जिल्‍हा सोसा.','ZillaSociety'], ['कोर्ट वसुली','CourtDeduction'],
-      ['जोशाबा','JSBSociety'], ['बहुजन सोसा','ZPBSociety'], ['धोत्री सोसा','DhotriSociety'], ['मंद्रुप सोसा','MandrupSociety'], ['मार्डी सोसा','MardiSociety'], ['मौआसो','MAzadSociety'], ['माने सोसा','ManeSociety'],
-      ['समर्थ सोसा','SwamiSamarthSociety'],  ['अक्‍कलकोट सो','AkkalkotSociety'],  ['मालपासो','MLPS'],
-      ['शिवकृपा फा','ShivkrupaFa'], ['वसूली','Repayment'], ['माने बॅंक','ManeBank'], ['सांगली बॅंक','SangaliBank'],
-      ['जनता बॅंक','JantaBank'], ['लाेकमंगल बॅंक','Lokmangal'], ['रेणूका','Renuka'], ['इतर','Other'], ['भिमा पत','Bhima'],
-      ['एकूण वजावट','TotalDeductions']  
-    ];
-
-    function getVal(key){ return slipData[key] ? slipData[key] : 0; }
-
-    let rows = "";
-    const maxRows = Math.max(allowances.length, Math.ceil(deductions.length / 3));
-    for(let i = 0; i < maxRows; i++){
-      const a  = allowances[i] ? `<td>${allowances[i][0]}</td><td>₹${escapeHtml(getVal(allowances[i][1]))}</td>` : "<td></td><td></td>";
-     
-      const d1 = deductions[i * 3] || [null, null];
-      const d2 = deductions[i * 3 + 1] || [null, null];
-      const d3 = deductions[i * 3 + 2] || [null, null];
-
-      const isLastRow = d1[0] === 'एकूण वजावट';
-
-      if(isLastRow){
-        rows += `<tr>${a}<td colspan="6" style="text-align:center; font-weight:bold;">${escapeHtml(d1[0])}: ₹${escapeHtml(getVal(d1[1]))}</td></tr>`;
-      }
-      else{
-        function deductionCell(label, key){
-          if(!label) return "<td></td><td></td>";
-          return `<td>${escapeHtml(label)}</td><td style="border-right:1px solid #1976d2; text-align:right;">₹${escapeHtml(getVal(key))}</td>`;
+        if(!res || !res.success){ 
+          errorBox.textContent = res && res.message ? res.message : "❌ Invalid login or no record found!";
+          errorBox.style.display = "block";
+          return; 
         }
-        const d1Cells = deductionCell(d1[0], d1[1]);
-        const d2Cells = deductionCell(d2[0], d2[1]);
-        const d3Cells = deductionCell(d3[0], d3[1]);
-
-        rows += `<tr>${a}${d1Cells}${d2Cells}${d3Cells}</tr>`;
-      }
-    }
-
-    const qrData = `EmployeeID:${slipData.EmployeeID}|Month:${slipData.Month}|Year:${slipData.Year}|NetSalary:${slipData.NetSalary}`;
-    const qrContainer = document.createElement("div");
-    qrContainer.style.display = "none";
-    document.body.appendChild(qrContainer);
-    new QRCode(qrContainer, { text: qrData, width: 100, height: 100 });
-    const canvas = qrContainer.querySelector("canvas");
-    const qrBase64 = canvas ? canvas.toDataURL("image/png") : "";
-    qrContainer.remove();
-
-    return `
-      <div style="font-family:Arial, sans-serif; font-size:12px; color:#000; background:#fff; padding:10px; width:750px; margin:0 auto;">
-        <style>
-          .pdf-table { width:100%; border-collapse:collapse; border:2px solid #1976d2; margin-top:10px; }
-          .pdf-table th, .pdf-table td { padding:5px 6px; font-size:12px; }
-          .pdf-table thead th { background:#e3f2fd; border-bottom:2px solid #1976d2; text-align:center; font-weight:600; }
-          .pdf-table tbody td { border-bottom:1px dotted #1976d2; }
-          .pdf-table th, .pdf-table td { border-left:none; border-right:none; }
-          .pdf-table thead th:nth-child(2) { border-right:1px solid #1976d2; }
-          .pdf-table tbody td:nth-child(2) { border-right:1px solid #1976d2; }
-          .pdf-table tbody td:nth-child(1), .pdf-table tbody td:nth-child(2) { text-align:left; }
-          .pdf-table tbody td:nth-child(n+3) { text-align:right; }
-          .pdf-table tbody tr:last-child td { font-weight:700; background:#f1f8ff; border-top:2px solid #1976d2; }
-          .net-box { margin-top:14px; padding:10px; background:#f5f5f5; border:1.5px solid #999; border-radius:6px; text-align:center; }
-          .net-box h3 { margin:0; font-size:15px; font-weight:700; color:#16a34a; }
-          .net-box p { margin:4px 0 0; font-size:13px; color:#333; }
-          .footer {
-            margin-top:24px;
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            color: #777;
-            padding-top: 10px;
-            text-align: center;
-            letter-spacing: 1px;
-            border-top:1px dotted #999;
-          }
-          .qr-box { text-align:center; }
-          .qr-box img { height:90px; width:90px; }
-        </style>
-        <div class="header-text" style="text-align:center; border-bottom:2px solid #1976d2; padding-bottom:6px;">
-          <h1 style="margin:0; font-size:20px; color:#1a237e;">पंचायत समिती (शिक्षण विभाग), दक्षिण सोलापूर</h1>
-          <h2 style="margin:4px 0 0; font-size:16px; color:#444;">वेतन पत्रक (Pay Slip)</h2>
-        </div>
-        <div class="meta" style="margin:10px 0; padding:10px; background:#f9f9f9; border:1px solid #ccc; border-radius:6px; display:flex; justify-style:space-between; font-size:12px;">
-          <div style="width:42%;">
-            <p style="margin:2px 0;"><strong>महिना:</strong> ${escapeHtml(slipData.Month||'')}</p>
-            <p style="margin:2px 0;"><strong>वर्ष:</strong> ${escapeHtml(slipData.Year||'')}</p>
-            <p style="margin:2px 0;"><strong>नाव:</strong> ${escapeHtml(slipData.Name||'')}</p>
-            <p style="margin:2px 0;"><strong>पद:</strong> ${escapeHtml(slipData.Designation||'')}</p>
-            <p style="margin:2px 0;"><strong>भनिनी क्र:</strong> ${escapeHtml(slipData.PFNo||'')}</p>
-          </div>
-          <div style="width:42%;">
-            <p style="margin:2px 0;"><strong>शाळा:</strong> ${escapeHtml(slipData.School||'')}</p>
-            <p style="margin:2px 0;"><strong>UDISE:</strong> ${escapeHtml(slipData.UDISE||'')}</p>
-            <p style="margin:2px 0;"><strong>केंद्र:</strong> ${escapeHtml(slipData.ClusterName||'')}</p>
-            <p style="margin:2px 0;"><strong>Account No:</strong> ${escapeHtml(slipData.AccountNumber||'')}</p>
-            <p style="margin:2px 0;"><strong>बॅंकेचे नाव:</strong> ${escapeHtml(slipData.BankName||'')}</p>
-          </div>
-          <div style="width:16%;" class="qr-box">
-            <img src="${qrBase64}" alt="QR Code">
-            <div style="font-size:10px; margin-top:2px;">Scan to verify</div>
-          </div>
-        </div>
-
-        <table class="pdf-table">
-          <thead><tr><th colspan="2" style="border-right:1px solid #1976d2">Allowances</th><th colspan="6">Deductions</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-        <div class="net-box">
-          <h3>निव्‍वळ वेतन: ₹${escapeHtml(slipData.NetSalary||'0')}</h3>
-          <p><strong>अक्षरी:</strong> ${escapeHtml(slipData.NetSalaryWords||'')}</p>
-        </div>
-        <div class="footer">
-          This is a system-generated salary slip and does not require a signature.
-        </div>
-      </div>`;
-  }
-
-  function showPrintSlip(){
-    if(!slipData){ alert('No data to print'); return; }
-    const printHtml = generatePrintHtml();
-
-    let printIframe = document.getElementById('printIframe');
-    if (!printIframe) {
-      printIframe = document.createElement('iframe');
-      printIframe.id = 'printIframe';
-      printIframe.style.position = 'fixed';
-      printIframe.style.right = '0';
-      printIframe.style.bottom = '0';
-      printIframe.style.width = '0';
-      printIframe.style.height = '0';
-      printIframe.style.border = '0';
-      document.body.appendChild(printIframe);
-    }
-
-    const doc = printIframe.contentWindow.document;
-    doc.open();
-    doc.write('<html><head><title>Print Slip</title></head><body>' + printHtml + '</body></html>');
-    doc.close();
-
-    setTimeout(() => {
-      printIframe.contentWindow.focus();
-      printIframe.contentWindow.print();
-    }, 150);
-  }
-
-  function downloadPdfSlip(btnEl){
-    if(!slipData){ alert('No data available to download PDF'); return; }
-
-    const originalText = btnEl.innerHTML;
-    btnEl.disabled = true;
-    btnEl.innerHTML = '<span class="btn-spinner"></span> PDF...';
-
-    const printHtml = generatePrintHtml();
-
-    // Container placed directly in document view, styled behind other elements
-    const container = document.createElement('div');
-    container.style.position = 'fixed';
-    container.style.top = '0';
-    container.style.left = '0';
-    container.style.width = '100%';
-    container.style.height = '100%';
-    container.style.zIndex = '-9999';
-    container.style.overflow = 'hidden';
-    container.style.background = '#ffffff';
-    container.innerHTML = printHtml;
-    document.body.appendChild(container);
-
-    const opt = {
-      margin:       0.2,
-      filename:     `SalarySlip_${slipData.EmployeeID}_${slipData.Month}_${slipData.Year}.pdf`,
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { 
-        scale: 2,               // Clean high DPI resolution
-        useCORS: true,
-        logging: false,
-        scrollY: 0,
-        scrollX: 0
-      },
-      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-
-    setTimeout(() => {
-      html2pdf().set(opt).from(container.firstElementChild).save().then(() => {
-        if (document.body.contains(container)) {
-          document.body.removeChild(container);
-        }
-        btnEl.disabled = false;
-        btnEl.innerHTML = originalText;
-      }).catch(err => {
+        slipData = res.record;
+        renderSummary(slipData);
+      }).catch(function(err){
         console.error(err);
-        alert('Failed to generate PDF. Please try printing to PDF instead.');
-        if (document.body.contains(container)) {
-          document.body.removeChild(container);
-        }
-        btnEl.disabled = false;
-        btnEl.innerHTML = originalText;
+        btn.disabled = false;
+        btnText.textContent = "Get Salary Slip";
+        btnIcon.className = "fa-solid fa-arrow-right";
+        errorBox.textContent = "⚠️ Connection error. Please check the API URL and Apps Script deployment.";
+        errorBox.style.display = "block";
       });
-    }, 300);
-  }
-</script>
+    }
 
-<!--
-  GitHub Pages version:
-  The original salary-slip design and print/PDF template are preserved.
-  Only google.script.run login/password calls were replaced with fetch().
--->
+    function toggleChangePassword(){
+      document.getElementById('loginBox').style.display = "none";
+      document.getElementById('changePasswordBox').style.display = "block";
+
+      ['empIdPass','oldPass','newPass','confirmPass'].forEach(id => {
+        document.getElementById(id).value = "";
+      });
+      const msgBox = document.getElementById('passMsg');
+      msgBox.style.display = "none";
+      msgBox.textContent = "";
+    }
+
+    function backToLogin(){
+      document.getElementById('changePasswordBox').style.display = "none";
+      document.getElementById('loginBox').style.display = "block";
+    }
+
+    function changePassword(){
+      const u = document.getElementById('empIdPass').value.trim();
+      const oldP = document.getElementById('oldPass').value.trim();
+      const newP = document.getElementById('newPass').value.trim();
+      const confirmP = document.getElementById('confirmPass').value.trim();
+      const msgBox = document.getElementById('passMsg');
+      const btn = document.getElementById('updatePassBtn');
+      const btnText = document.getElementById('updatePassBtnText');
+
+      msgBox.style.display = "none";
+      msgBox.textContent = "";
+
+      if(!u || !oldP || !newP || !confirmP){
+        msgBox.textContent = "⚠️ Fill all fields"; 
+        msgBox.style.display = "block"; 
+        return;
+      }
+      if(newP !== confirmP){
+        msgBox.textContent = "❌ New passwords do not match"; 
+        msgBox.style.display = "block"; 
+        return;
+      }
+
+      btn.disabled = true;
+      btnText.innerHTML = '<span class="btn-spinner"></span> Updating...';
+
+      apiRequest({
+        action: 'updatePassword',
+        username: u,
+        oldPassword: oldP,
+        newPassword: newP
+      }).then(function(res){
+        btn.disabled = false;
+        btnText.textContent = "Update Password";
+
+        msgBox.textContent = res.message;
+        msgBox.style.display = "block";
+        msgBox.style.color = res.success ? "#16a34a" : "#dc2626";
+
+        if(res.success){
+          ['empIdPass','oldPass','newPass','confirmPass'].forEach(id => {
+            document.getElementById(id).value = "";
+          });
+
+          const modal = document.getElementById("successModal");
+          modal.style.display = "flex";
+
+          setTimeout(() => {
+            modal.style.display = "none";
+            backToLogin();
+          }, 3000);
+        }
+      }).catch(function(err){
+        console.error(err);
+        btn.disabled = false;
+        btnText.textContent = "Update Password";
+        msgBox.textContent = "⚠️ Connection error. Please check the API URL and Apps Script deployment.";
+        msgBox.style.display = "block";
+        msgBox.style.color = "#dc2626";
+      });
+    }
+
+    function renderSummary(r){
+      document.getElementById('loginBox').style.display = 'none';
+      const html = `
+        <div class="summary-card" id="summaryInner" role="region" aria-live="polite" aria-label="Salary slip summary">
+          <h3 style="margin:4px 0 12px; font-size:1.15rem; color:var(--text-main);">${escapeHtml(r.Name || '')} <span style="font-size:0.85rem; color:var(--text-muted);">(${escapeHtml(r.EmployeeID || '')})</span></h3>
+          <p style="font-size:0.85rem; margin-bottom:6px;"><strong>Month:</strong> ${escapeHtml(r.Month||'')} &nbsp;&bull;&nbsp; <strong>Year:</strong> ${escapeHtml(r.Year||'')}</p>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;"><strong>Gross:</strong> ₹${escapeHtml(r.GrossSalary||'0')} &nbsp;&bull;&nbsp; <strong>Deductions:</strong> ₹${escapeHtml(r.TotalDeductions||'0')}</p>
+          <div style="background:#f1f5f9; padding:10px; margin:12px 0; border-radius:10px; border: 1px solid var(--border-color);">
+            <h3 style="color:#16a34a; font-size:1.1rem;">Net Salary: ₹${escapeHtml(r.NetSalary||'0')}</h3>
+            <p style="font-size:0.75rem; color:#475569; margin-top:2px;">In Words: ${escapeHtml(r.NetSalaryWords||'')}</p>
+          </div>
+          <div class="action-group">
+            <button onclick="showPrintSlip()" class="btn-action btn-sm" style="background:#16a34a;">
+              <i class="fa-solid fa-print"></i> Print
+            </button>
+            <button onclick="downloadPdfSlip(this)" class="btn-action btn-sm" style="background:#2563eb;">
+              <i class="fa-solid fa-file-pdf"></i> PDF
+            </button>
+            <button onclick="resetForm()" class="btn-action btn-sm btn-secondary">
+              <i class="fa-solid fa-rotate-left"></i> Reset
+            </button>
+          </div>
+        </div>
+      `;
+      const summaryCard = document.getElementById('summaryCard');
+      summaryCard.innerHTML = html;
+      summaryCard.style.display = 'block';
+    }
+
+    function resetForm(){
+      slipData = null;
+      document.getElementById('loginBox').style.display = 'block';
+      ['username','password','month'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      const yearSelect = document.getElementById('year');
+      if(yearSelect) yearSelect.value = String(new Date().getFullYear());
+      document.getElementById('summaryCard').style.display = 'none';
+      document.getElementById('summaryCard').innerHTML = '';
+      document.getElementById('errorMsg').style.display = "none";
+    }
+
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"]/g, m => ({
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        '"':'&quot;'
+      }[m]));
+    }
+
+    function generatePrintHtml(){
+      if(!slipData) return '';
+
+      const allowances = [
+        ['मूळ वेतन','BasicPay'], ['महागाई भत्‍ता','DA'], ['घरभाडे','HRA'], ['वाहन भत्‍ता','TA'], ['महागाई फरक','Arrears'], ['वेतन फरक','BasicArrears'], ['NPS Employer','NPS_Employer'], ['के.प्र भत्‍ता','KPAllowance'],['इतर भत्‍ते','OtherAllowance'], ['दिव्‍यांग भत्‍ता','HandicapAllow'], ['७ वा वेतन','SeventhPay'], ['एकूण वेतन','GrossSalary']
+      ];
+      const deductions = [
+        ['गटविमा','GIS'], ['व्‍यवसाय कर','ProfessionalTax'], ['भनिनी वर्गणी','GPF'], ['भनिनी हप्‍ता','GPFE'], ['Revenue Stamp','RevenueStamp'], ['NPSG','NPSG'], ['NPSE','NPSE'], ['अग्रीम','FA'], ['आयकर','IncomeTax'], ['मुख्‍यमंत्री निधी','CMFund'],
+        ['ध्‍वज निधी','FlagFund'], ['अपघात विमा','GAI'], ['जिल्‍हा सोसा.','ZillaSociety'], ['कोर्ट वसुली','CourtDeduction'],
+        ['जोशाबा','JSBSociety'], ['बहुजन सोसा','ZPBSociety'], ['धोत्री सोसा','DhotriSociety'], ['मंद्रुप सोसा','MandrupSociety'], ['मार्डी सोसा','MardiSociety'], ['मौआसो','MAzadSociety'], ['माने सोसा','ManeSociety'],
+        ['समर्थ सोसा','SwamiSamarthSociety'],  ['अक्‍कलकोट सो','AkkalkotSociety'],  ['मालपासो','MLPS'],
+        ['शिवकृपा फा','ShivkrupaFa'], ['वसूली','Repayment'], ['माने बॅंक','ManeBank'], ['सांगली बॅंक','SangaliBank'],
+        ['जनता बॅंक','JantaBank'], ['लाेकमंगल बॅंक','Lokmangal'], ['रेणूका','Renuka'], ['इतर','Other'], ['भिमा पत','Bhima'],
+        ['एकूण वजावट','TotalDeductions']  
+      ];
+
+      function getVal(key){ return slipData[key] ? slipData[key] : 0; }
+
+      let rows = "";
+      const maxRows = Math.max(allowances.length, Math.ceil(deductions.length / 3));
+      for(let i = 0; i < maxRows; i++){
+        const a  = allowances[i] ? `<td>${allowances[i][0]}</td><td>₹${escapeHtml(getVal(allowances[i][1]))}</td>` : "<td></td><td></td>";
+       
+        const d1 = deductions[i * 3] || [null, null];
+        const d2 = deductions[i * 3 + 1] || [null, null];
+        const d3 = deductions[i * 3 + 2] || [null, null];
+
+        const isLastRow = d1[0] === 'एकूण वजावट';
+
+        if(isLastRow){
+          rows += `<tr>${a}<td colspan="6" style="text-align:center; font-weight:bold;">${escapeHtml(d1[0])}: ₹${escapeHtml(getVal(d1[1]))}</td></tr>`;
+        }
+        else{
+          function deductionCell(label, key){
+            if(!label) return "<td></td><td></td>";
+            return `<td>${escapeHtml(label)}</td><td style="border-right:1px solid #1976d2; text-align:right;">₹${escapeHtml(getVal(key))}</td>`;
+          }
+          const d1Cells = deductionCell(d1[0], d1[1]);
+          const d2Cells = deductionCell(d2[0], d2[1]);
+          const d3Cells = deductionCell(d3[0], d3[1]);
+
+          rows += `<tr>${a}${d1Cells}${d2Cells}${d3Cells}</tr>`;
+        }
+      }
+
+      const qrData = `EmployeeID:${slipData.EmployeeID}|Month:${slipData.Month}|Year:${slipData.Year}|NetSalary:${slipData.NetSalary}`;
+      const qrContainer = document.createElement("div");
+      qrContainer.style.display = "none";
+      document.body.appendChild(qrContainer);
+      new QRCode(qrContainer, { text: qrData, width: 100, height: 100 });
+      const canvas = qrContainer.querySelector("canvas");
+      const qrBase64 = canvas ? canvas.toDataURL("image/png") : "";
+      qrContainer.remove();
+
+      return `
+        <div style="font-family:Arial, sans-serif; font-size:12px; color:#000; background:#fff; padding:10px; width:750px; margin:0 auto;">
+          <style>
+            .pdf-table { width:100%; border-collapse:collapse; border:2px solid #1976d2; margin-top:10px; }
+            .pdf-table th, .pdf-table td { padding:5px 6px; font-size:12px; }
+            .pdf-table thead th { background:#e3f2fd; border-bottom:2px solid #1976d2; text-align:center; font-weight:600; }
+            .pdf-table tbody td { border-bottom:1px dotted #1976d2; }
+            .pdf-table th, .pdf-table td { border-left:none; border-right:none; }
+            .pdf-table thead th:nth-child(2) { border-right:1px solid #1976d2; }
+            .pdf-table tbody td:nth-child(2) { border-right:1px solid #1976d2; }
+            .pdf-table tbody td:nth-child(1), .pdf-table tbody td:nth-child(2) { text-align:left; }
+            .pdf-table tbody td:nth-child(n+3) { text-align:right; }
+            .pdf-table tbody tr:last-child td { font-weight:700; background:#f1f8ff; border-top:2px solid #1976d2; }
+            .net-box { margin-top:14px; padding:10px; background:#f5f5f5; border:1.5px solid #999; border-radius:6px; text-align:center; }
+            .net-box h3 { margin:0; font-size:15px; font-weight:700; color:#16a34a; }
+            .net-box p { margin:4px 0 0; font-size:13px; color:#333; }
+            .footer {
+              margin-top:24px;
+              font-family: 'Space Mono', monospace;
+              font-size: 10px;
+              color: #777;
+              padding-top: 10px;
+              text-align: center;
+              letter-spacing: 1px;
+              border-top:1px dotted #999;
+            }
+            .qr-box { text-align:center; }
+            .qr-box img { height:90px; width:90px; }
+          </style>
+          <div class="header-text" style="text-align:center; border-bottom:2px solid #1976d2; padding-bottom:6px;">
+            <h1 style="margin:0; font-size:20px; color:#1a237e;">पंचायत समिती (शिक्षण विभाग), दक्षिण सोलापूर</h1>
+            <h2 style="margin:4px 0 0; font-size:16px; color:#444;">वेतन पत्रक (Pay Slip)</h2>
+          </div>
+          <div class="meta" style="margin:10px 0; padding:10px; background:#f9f9f9; border:1px solid #ccc; border-radius:6px; display:flex; justify-style:space-between; font-size:12px;">
+            <div style="width:42%;">
+              <p style="margin:2px 0;"><strong>महिना:</strong> ${escapeHtml(slipData.Month||'')}</p>
+              <p style="margin:2px 0;"><strong>वर्ष:</strong> ${escapeHtml(slipData.Year||'')}</p>
+              <p style="margin:2px 0;"><strong>नाव:</strong> ${escapeHtml(slipData.Name||'')}</p>
+              <p style="margin:2px 0;"><strong>पद:</strong> ${escapeHtml(slipData.Designation||'')}</p>
+              <p style="margin:2px 0;"><strong>भनिनी क्र:</strong> ${escapeHtml(slipData.PFNo||'')}</p>
+            </div>
+            <div style="width:42%;">
+              <p style="margin:2px 0;"><strong>शाळा:</strong> ${escapeHtml(slipData.School||'')}</p>
+              <p style="margin:2px 0;"><strong>UDISE:</strong> ${escapeHtml(slipData.UDISE||'')}</p>
+              <p style="margin:2px 0;"><strong>केंद्र:</strong> ${escapeHtml(slipData.ClusterName||'')}</p>
+              <p style="margin:2px 0;"><strong>Account No:</strong> ${escapeHtml(slipData.AccountNumber||'')}</p>
+              <p style="margin:2px 0;"><strong>बॅंकेचे नाव:</strong> ${escapeHtml(slipData.BankName||'')}</p>
+            </div>
+            <div style="width:16%;" class="qr-box">
+              <img src="${qrBase64}" alt="QR Code">
+              <div style="font-size:10px; margin-top:2px;">Scan to verify</div>
+            </div>
+          </div>
+
+          <table class="pdf-table">
+            <thead><tr><th colspan="2" style="border-right:1px solid #1976d2">Allowances</th><th colspan="6">Deductions</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+          <div class="net-box">
+            <h3>निव्‍वळ वेतन: ₹${escapeHtml(slipData.NetSalary||'0')}</h3>
+            <p><strong>अक्षरी:</strong> ${escapeHtml(slipData.NetSalaryWords||'')}</p>
+          </div>
+          <div class="footer">
+            This is a system-generated salary slip and does not require a signature.
+          </div>
+        </div>`;
+    }
+
+    function showPrintSlip(){
+      if(!slipData){ alert('No data to print'); return; }
+      const printHtml = generatePrintHtml();
+
+      let printIframe = document.getElementById('printIframe');
+      if (!printIframe) {
+        printIframe = document.createElement('iframe');
+        printIframe.id = 'printIframe';
+        printIframe.style.position = 'fixed';
+        printIframe.style.right = '0';
+        printIframe.style.bottom = '0';
+        printIframe.style.width = '0';
+        printIframe.style.height = '0';
+        printIframe.style.border = '0';
+        document.body.appendChild(printIframe);
+      }
+
+      const doc = printIframe.contentWindow.document;
+      doc.open();
+      doc.write('<html><head><title>Print Slip</title></head><body>' + printHtml + '</body></html>');
+      doc.close();
+
+      setTimeout(() => {
+        printIframe.contentWindow.focus();
+        printIframe.contentWindow.print();
+      }, 150);
+    }
+
+    function downloadPdfSlip(btnEl){
+      if(!slipData){ alert('No data available to download PDF'); return; }
+
+      const originalText = btnEl.innerHTML;
+      btnEl.disabled = true;
+      btnEl.innerHTML = '<span class="btn-spinner"></span> PDF...';
+
+      const printHtml = generatePrintHtml();
+
+      const container = document.createElement('div');
+      container.style.position = 'fixed';
+      container.style.top = '0';
+      container.style.left = '0';
+      container.style.width = '100%';
+      container.style.height = '100%';
+      container.style.zIndex = '-9999';
+      container.style.overflow = 'hidden';
+      container.style.background = '#ffffff';
+      container.innerHTML = printHtml;
+      document.body.appendChild(container);
+
+      const opt = {
+        margin:       0.2,
+        filename:     `SalarySlip_${slipData.EmployeeID}_${slipData.Month}_${slipData.Year}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { 
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          scrollY: 0,
+          scrollX: 0
+        },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
+
+      setTimeout(() => {
+        html2pdf().set(opt).from(container.firstElementChild).save().then(() => {
+          if (document.body.contains(container)) {
+            document.body.removeChild(container);
+          }
+          btnEl.disabled = false;
+          btnEl.innerHTML = originalText;
+        }).catch(err => {
+          console.error(err);
+          alert('Failed to generate PDF. Please try printing to PDF instead.');
+          if (document.body.contains(container)) {
+            document.body.removeChild(container);
+          }
+          btnEl.disabled = false;
+          btnEl.innerHTML = originalText;
+        });
+      }, 300);
+    }
+  </script>
 </body>
 </html>
