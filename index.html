@@ -1679,16 +1679,21 @@
       });
     }
 
-    // ===== Direct WhatsApp Messaging Function (Browser & App Compatible) =====
+   // ===== Direct WhatsApp Messaging Function (Browser & App Compatible + Auto-Clear) =====
     function sendViaWhatsApp(e) {
       e.preventDefault();
 
       const phoneTarget = "917020302223"; 
 
-      const empId = document.getElementById('cEmpId').value.trim();
-      const name = document.getElementById('cName').value.trim();
-      const school = document.getElementById('cSchool').value.trim();
-      const message = document.getElementById('cMessage').value.trim();
+      const empIdInput = document.getElementById('cEmpId');
+      const nameInput = document.getElementById('cName');
+      const schoolInput = document.getElementById('cSchool');
+      const messageInput = document.getElementById('cMessage');
+
+      const empId = empIdInput.value.trim();
+      const name = nameInput.value.trim();
+      const school = schoolInput.value.trim();
+      const message = messageInput.value.trim();
 
       const text = `*Teacher Salary Portal - Inquiry/Grievance*\n\n` +
                    `*Employee ID:* ${empId}\n` +
@@ -1698,9 +1703,15 @@
 
       const targetUrl = `https://api.whatsapp.com/send?phone=${phoneTarget}&text=${encodeURIComponent(text)}`;
 
+      // Reset the form fields so the message box is empty after sending
+      document.getElementById('contactForm').reset();
+
       const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       if (isMobile) {
-        window.location.href = targetUrl;
+        // Delay slightly on mobile to ensure the form visual clear completes before redirection
+        setTimeout(() => {
+          window.location.href = targetUrl;
+        }, 150);
       } else {
         window.open(targetUrl, '_blank', 'noopener,noreferrer');
       }
