@@ -2646,7 +2646,7 @@
       }, 150);
     }
 
-    // ===== RELIABLE NATIVE DIRECT PDF ENGINE =====
+// ===== 100% RELIABLE DIRECT PDF GENERATOR =====
     function downloadPdfSlip(btnEl) {
       if (!slipData) {
         alert(currentLang === 'en' ? 'No data available to download PDF' : 'PDF साठी माहिती उपलब्ध नाही');
@@ -2655,63 +2655,66 @@
 
       const originalText = btnEl.innerHTML;
       btnEl.disabled = true;
-      btnEl.innerHTML = '<span class="btn-spinner"></span> ' + (currentLang === 'en' ? 'Opening...' : 'उघडत आहे...');
+      btnEl.innerHTML = '<span class="btn-spinner"></span> ' + (currentLang === 'en' ? 'Downloading...' : 'डाऊनलोड होत आहे...');
 
       const printHtml = generatePrintHtml();
-      const filename = `SalarySlip_${slipData.EmployeeID}_${slipData.Month}_${slipData.Year}`;
 
-      let printIframe = document.getElementById('printIframe');
-      if (printIframe) {
-        printIframe.remove();
-      }
+      // Create on-screen container (at bottom of body) with visibility preserved
+      const container = document.createElement('div');
+      container.id = 'activePdfRenderer';
+      container.style.position = 'absolute';
+      container.style.left = '0';
+      container.style.top = (document.body.scrollHeight + 100) + 'px';
+      container.style.width = '780px';
+      container.style.background = '#ffffff';
+      container.style.zIndex = '99999';
+      container.innerHTML = printHtml;
+      document.body.appendChild(container);
 
-      printIframe = document.createElement('iframe');
-      printIframe.id = 'printIframe';
-      printIframe.style.position = 'fixed';
-      printIframe.style.right = '0';
-      printIframe.style.bottom = '0';
-      printIframe.style.width = '0';
-      printIframe.style.height = '0';
-      printIframe.style.border = '0';
-      document.body.appendChild(printIframe);
+      const targetEl = container.querySelector('#salarySlipContent') || container;
 
-      const doc = printIframe.contentWindow.document;
-      doc.open();
-      doc.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="utf-8">
-          <title>${filename}</title>
-          <style>
-            @page { size: portrait; margin: 8mm; }
-            body { margin: 0; padding: 0; background: #fff; }
-            @media print {
-              body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            }
-          </style>
-        </head>
-        <body>${printHtml}</body>
-        </html>
-      `);
-      doc.close();
+      const opt = {
+        margin:       [0.2, 0.2, 0.2, 0.2],
+        filename:     `SalarySlip_${slipData.EmployeeID}_${slipData.Month}_${slipData.Year}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { 
+          scale: 1.8,
+          useCORS: true,
+          logging: false,
+          scrollY: 0,
+          scrollX: 0,
+          windowWidth: 800
+        },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
 
+      // Give QR code canvas time to settle
       setTimeout(() => {
-        btnEl.disabled = false;
-        btnEl.innerHTML = originalText;
-        try {
-          printIframe.contentWindow.focus();
-          printIframe.contentWindow.print();
-        } catch (e) {
-          const w = window.open('', '_blank');
-          if (w) {
-            w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${filename}</title></head><body>${printHtml}</body></html>`);
-            w.document.close();
-            w.focus();
-            setTimeout(() => { w.print(); }, 250);
+        if (typeof html2pdf !== 'undefined') {
+          html2pdf().set(opt).from(targetEl).save().then(() => {
+            if (document.body.contains(container)) {
+              container.remove();
+            }
+            btnEl.disabled = false;
+            btnEl.innerHTML = originalText;
+          }).catch(err => {
+            console.error('PDF library failed:', err);
+            if (document.body.contains(container)) {
+              container.remove();
+            }
+            btnEl.disabled = false;
+            btnEl.innerHTML = originalText;
+            showPrintSlip();
+          });
+        } else {
+          if (document.body.contains(container)) {
+            container.remove();
           }
+          btnEl.disabled = false;
+          btnEl.innerHTML = originalText;
+          showPrintSlip();
         }
-      }, 250);
+      }, 350);
     }
   </script>
 </body>
