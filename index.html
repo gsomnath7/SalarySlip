@@ -2601,58 +2601,61 @@
     }
 
     // ===== RELIABLE 100% WORKING PDF DOWNLOAD ENGINE =====
-    function downloadPdfSlip(btnEl){
-      if(!slipData){ alert('No data available to download PDF'); return; }
+    function downloadPdfSlip(btnEl) {
+      if (!slipData) {
+        alert(currentLang === 'en' ? 'No data available to download PDF' : 'PDF साठी माहिती उपलब्ध नाही');
+        return;
+      }
 
       const originalText = btnEl.innerHTML;
       btnEl.disabled = true;
-      btnEl.innerHTML = '<span class="btn-spinner"></span> PDF...';
+      btnEl.innerHTML = '<span class="btn-spinner"></span> ' + (currentLang === 'en' ? 'Opening PDF...' : 'PDF उघडत आहे...');
 
       const printHtml = generatePrintHtml();
+      const filename = `SalarySlip_${slipData.EmployeeID}_${slipData.Month}_${slipData.Year}`;
 
-      const container = document.createElement('div');
-      container.style.position = 'fixed';
-      container.style.top = '0';
-      container.style.left = '0';
-      container.style.width = '100%';
-      container.style.height = '100%';
-      container.style.zIndex = '-9999';
-      container.style.overflow = 'hidden';
-      container.style.background = '#ffffff';
-      container.innerHTML = printHtml;
-      document.body.appendChild(container);
+      // Open clean dedicated render window to trigger browser's native Save as PDF
+      const pdfWindow = window.open('', '_blank');
+      if (pdfWindow) {
+        pdfWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>${filename}</title>
+            <style>
+              @page { size: A4 portrait; margin: 10mm; }
+              body { margin: 0; padding: 0; background: #ffffff; }
+              @media print {
+                body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+              }
+            </style>
+          </head>
+          <body>
+            ${printHtml}
+            <script>
+              window.onload = function() {
+                setTimeout(function() {
+                  window.focus();
+                  window.print();
+                }, 300);
+              };
+            <\/script>
+          </body>
+          </html>
+        `);
+        pdfWindow.document.close();
 
-      const opt = {
-        margin:       0.2,
-        filename:     `SalarySlip_${slipData.EmployeeID}_${slipData.Month}_${slipData.Year}.pdf`,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { 
-          scale: 2,
-          useCORS: true,
-          logging: false,
-          scrollY: 0,
-          scrollX: 0
-        },
-        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-      };
-
-      setTimeout(() => {
-        html2pdf().set(opt).from(container.firstElementChild).save().then(() => {
-          if (document.body.contains(container)) {
-            document.body.removeChild(container);
-          }
+        setTimeout(() => {
           btnEl.disabled = false;
           btnEl.innerHTML = originalText;
-        }).catch(err => {
-          console.error(err);
-          alert('Failed to generate PDF. Please try printing to PDF instead.');
-          if (document.body.contains(container)) {
-            document.body.removeChild(container);
-          }
-          btnEl.disabled = false;
-          btnEl.innerHTML = originalText;
-        });
-      }, 300);
+        }, 500);
+      } else {
+        // Fallback if popup blocker intervenes
+        showPrintSlip();
+        btnEl.disabled = false;
+        btnEl.innerHTML = originalText;
+      }
     }
   </script>
 </body>
