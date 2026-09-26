@@ -1225,7 +1225,7 @@
       <span data-i18n="ticker_badge">Alerts!</span>
     </div>
     <div class="ticker-content">
-      <div class="ticker-track">
+      <div class="ticker-track" id="dynamicTickerTrack">
         <a href="#salaryPortal" class="ticker-item">
           <i class="fa-solid fa-circle-dot" style="font-size:0.5rem; color:#38bdf8;"></i>
           <span data-i18n="ticker_text1">Current month salary bill has been submitted to treasury. Teachers can check their slip.</span>
@@ -1359,7 +1359,7 @@
                 <span class="dev-role" data-i18n="role_dev">Web Developer</span>
                 <div class="dev-divider"></div>
                 <p data-i18n="quote_dev">
-                  "Developed with modern web technologies to empower teachers with secure, instantaneous digital salary access. Fast, reliable, and convenient."[cite: 2]
+                  "Developed with modern web technologies to empower teachers with secure, instantaneous digital salary access. Fast, reliable, and convenient."
                 </p>
               </div>
             </div>
@@ -1713,7 +1713,7 @@
   </footer>
 
   <!-- =========================================================
-       SCRIPTS: NUMBER TO WORDS + BILINGUAL + PDF EXPORT
+       SCRIPTS: DYNAMIC NOTICES + BILINGUAL + PDF EXPORT
        ========================================================= -->
   <script>
     // ===== NUMBER TO WORDS ENGINE (ENGLISH & MARATHI) =====
@@ -1936,6 +1936,8 @@
       }
     } catch(e) {}
 
+    let liveNotices = [];
+
     function setLanguage(lang) {
       currentLang = lang;
       try {
@@ -1965,6 +1967,10 @@
       const cMsg = document.getElementById('cMessage');
       if (cMsg) cMsg.placeholder = lang === 'en' ? 'Describe the problem, month, or deduction issue...' : 'तफावत, महिना किंवा अडचणीचा सविस्तर तपशील लिहा...';
 
+      if (liveNotices.length > 0) {
+        renderTickerNotices();
+      }
+
       if (slipData) {
         renderSummary(slipData);
       }
@@ -1975,7 +1981,44 @@
       setLanguage(target);
     }
 
-    // ===== Year Population Logic (Preserved) =====
+    // ===== DYNAMIC TICKER NOTICES =====
+    async function loadDynamicNotices() {
+      try {
+        const res = await apiRequest({ action: 'getNotices' });
+        if (res && res.success && Array.isArray(res.notices) && res.notices.length > 0) {
+          liveNotices = res.notices;
+          renderTickerNotices();
+        }
+      } catch (err) {
+        console.warn("Could not load dynamic notices from sheet, keeping default.", err);
+      }
+    }
+
+    function renderTickerNotices() {
+      const track = document.getElementById('dynamicTickerTrack');
+      if (!track || liveNotices.length === 0) return;
+
+      const isEn = (currentLang === 'en');
+      let html = '';
+
+      liveNotices.forEach(item => {
+        const text = isEn ? (item.text_en || item.text_mr) : (item.text_mr || item.text_en);
+        const link = item.link || '#';
+        const isExternal = link.startsWith('http');
+        
+        html += `
+          <a href="${link}" ${isExternal ? 'target="_blank" rel="noopener noreferrer"' : ''} class="ticker-item">
+            <i class="fa-solid fa-circle-dot" style="font-size:0.5rem; color:#38bdf8;"></i>
+            <span>${escapeHtml(text)}</span>
+            <span class="gr-date">${escapeHtml(item.badge)}</span>
+          </a>
+        `;
+      });
+
+      track.innerHTML = html;
+    }
+
+    // ===== Year Population Logic =====
     (function fillYears(){
       const sel = document.getElementById('year');
       if(!sel) return;
@@ -2052,7 +2095,7 @@
       startShowcaseTimer();
     }
 
-    // ===== Running Counters on Open =====
+    // ===== Running Counters =====
     function runCounters() {
       const counters = document.querySelectorAll('.counter-number');
       counters.forEach(counter => {
@@ -2116,11 +2159,12 @@
       }
     }
 
-    // ===== Scroll-Triggered Reveal =====
+    // ===== Scroll-Triggered Reveal & Initialization =====
     document.addEventListener('DOMContentLoaded', () => {
       setLanguage(currentLang);
       startShowcaseTimer();
       runCounters();
+      loadDynamicNotices();
 
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -2133,7 +2177,7 @@
       document.querySelectorAll('.reveal-section').forEach(el => observer.observe(el));
     });
 
-    // ===== Core Authentication & API Code (Preserved) =====
+    // ===== Core Authentication & API Code =====
     let slipData = null;
 
     const passwordInput = document.getElementById("password");
@@ -2152,7 +2196,7 @@
       eyeIcon.style.display = "block";
     });
 
-    const API_URL = 'https://script.google.com/macros/s/AKfycbzTHIIzPz6nPRZogfv0sVssSeAuRXD8EQMHy5308EQqWSILwoHbcNiPNZN1DLG4cXg/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwMULm2hVLYuVMsD5m1dT9FsQuC1uiL6oQwugVWD2B5hRIc8NUfQaazYbdhzAvWcYiD/exec';
 
     async function apiRequest(payload){
       const response = await fetch(API_URL, {
@@ -2602,7 +2646,7 @@
       }, 150);
     }
 
-    // ===== 100% RELIABLE DIRECT PDF GENERATOR =====
+    // ===== RELIABLE NATIVE DIRECT PDF ENGINE =====
     function downloadPdfSlip(btnEl) {
       if (!slipData) {
         alert(currentLang === 'en' ? 'No data available to download PDF' : 'PDF साठी माहिती उपलब्ध नाही');
@@ -2611,66 +2655,63 @@
 
       const originalText = btnEl.innerHTML;
       btnEl.disabled = true;
-      btnEl.innerHTML = '<span class="btn-spinner"></span> ' + (currentLang === 'en' ? 'Downloading...' : 'डाऊनलोड होत आहे...');
+      btnEl.innerHTML = '<span class="btn-spinner"></span> ' + (currentLang === 'en' ? 'Opening...' : 'उघडत आहे...');
 
       const printHtml = generatePrintHtml();
+      const filename = `SalarySlip_${slipData.EmployeeID}_${slipData.Month}_${slipData.Year}`;
 
-      // Create on-screen container (at bottom of body) with visibility preserved
-      const container = document.createElement('div');
-      container.id = 'activePdfRenderer';
-      container.style.position = 'absolute';
-      container.style.left = '0';
-      container.style.top = (document.body.scrollHeight + 100) + 'px';
-      container.style.width = '780px';
-      container.style.background = '#ffffff';
-      container.style.zIndex = '99999';
-      container.innerHTML = printHtml;
-      document.body.appendChild(container);
+      let printIframe = document.getElementById('printIframe');
+      if (printIframe) {
+        printIframe.remove();
+      }
 
-      const targetEl = container.querySelector('#salarySlipContent') || container;
+      printIframe = document.createElement('iframe');
+      printIframe.id = 'printIframe';
+      printIframe.style.position = 'fixed';
+      printIframe.style.right = '0';
+      printIframe.style.bottom = '0';
+      printIframe.style.width = '0';
+      printIframe.style.height = '0';
+      printIframe.style.border = '0';
+      document.body.appendChild(printIframe);
 
-      const opt = {
-        margin:       [0.2, 0.2, 0.2, 0.2],
-        filename:     `SalarySlip_${slipData.EmployeeID}_${slipData.Month}_${slipData.Year}.pdf`,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { 
-          scale: 1.8,
-          useCORS: true,
-          logging: false,
-          scrollY: 0,
-          scrollX: 0,
-          windowWidth: 800
-        },
-        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-      };
+      const doc = printIframe.contentWindow.document;
+      doc.open();
+      doc.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <title>${filename}</title>
+          <style>
+            @page { size: portrait; margin: 8mm; }
+            body { margin: 0; padding: 0; background: #fff; }
+            @media print {
+              body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            }
+          </style>
+        </head>
+        <body>${printHtml}</body>
+        </html>
+      `);
+      doc.close();
 
-      // Give QR code canvas time to settle
       setTimeout(() => {
-        if (typeof html2pdf !== 'undefined') {
-          html2pdf().set(opt).from(targetEl).save().then(() => {
-            if (document.body.contains(container)) {
-              container.remove();
-            }
-            btnEl.disabled = false;
-            btnEl.innerHTML = originalText;
-          }).catch(err => {
-            console.error('PDF library failed:', err);
-            if (document.body.contains(container)) {
-              container.remove();
-            }
-            btnEl.disabled = false;
-            btnEl.innerHTML = originalText;
-            showPrintSlip();
-          });
-        } else {
-          if (document.body.contains(container)) {
-            container.remove();
+        btnEl.disabled = false;
+        btnEl.innerHTML = originalText;
+        try {
+          printIframe.contentWindow.focus();
+          printIframe.contentWindow.print();
+        } catch (e) {
+          const w = window.open('', '_blank');
+          if (w) {
+            w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${filename}</title></head><body>${printHtml}</body></html>`);
+            w.document.close();
+            w.focus();
+            setTimeout(() => { w.print(); }, 250);
           }
-          btnEl.disabled = false;
-          btnEl.innerHTML = originalText;
-          showPrintSlip();
         }
-      }, 350);
+      }, 250);
     }
   </script>
 </body>
