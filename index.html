@@ -201,7 +201,6 @@
       text-align: left;
     }
 
-    /* Executive Navy Glassmorphism Testimonial Slides */
     .showcase-slide.dev-testimonial-slide {
       background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.88) 100%);
       border: 1px solid rgba(59, 130, 246, 0.25);
@@ -893,6 +892,159 @@
       line-height: 1.5;
     }
 
+    /* =========================================================
+       CONTACT US & WHATSAPP COMMUNITY SECTION
+       ========================================================= */
+    .contact-portal {
+      width: min(860px, 94%);
+      margin: 50px auto 40px;
+    }
+
+    .contact-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 22px;
+      padding: 36px 30px;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.05);
+    }
+
+    .contact-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .contact-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: #dcfce7;
+      color: #16a34a;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+    }
+
+    .contact-header h2 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+
+    .contact-header p {
+      color: #64748b;
+      font-size: 0.92rem;
+      margin-top: 4px;
+    }
+
+    /* WhatsApp Group Invite Banner */
+    .wa-group-card {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border: 1.5px dashed #22c55e;
+      border-radius: 16px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .wa-group-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-align: left;
+    }
+
+    .wa-group-info i {
+      font-size: 2.2rem;
+      color: #16a34a;
+      flex-shrink: 0;
+    }
+
+    .wa-group-info strong {
+      display: block;
+      color: #14532d;
+      font-size: 0.98rem;
+    }
+
+    .wa-group-info span {
+      display: block;
+      color: #166534;
+      font-size: 0.8rem;
+      margin-top: 2px;
+    }
+
+    .btn-wa-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #16a34a;
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .btn-wa-group:hover {
+      background: #15803d;
+      transform: translateY(-2px);
+    }
+
+    .or-divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 20px 0;
+    }
+
+    .or-divider::before, .or-divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .or-divider:not(:empty)::before {
+      margin-right: 1em;
+    }
+
+    .or-divider:not(:empty)::after {
+      margin-left: 1em;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 0.75rem 0.85rem;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      background: #f8fafc;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      outline: none;
+      resize: vertical;
+      transition: all 0.2s ease;
+    }
+
+    textarea:focus {
+      background: #ffffff;
+      border-color: #16a34a;
+      box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.2);
+    }
+
     /* Footer */
     .modern-footer {
       width: 100%;
@@ -939,6 +1091,19 @@
         margin: 8px auto 10px;
       }
       .slider-nav { display: none; }
+      .contact-card { padding: 26px 20px; }
+      .wa-group-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      .wa-group-info {
+        flex-direction: column;
+        text-align: center;
+      }
+      .btn-wa-group {
+        width: 100%;
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -970,7 +1135,7 @@
         </a>
       </div>
 
-      <!-- Showcase Slider (Properly Closed & Formatted) -->
+      <!-- Showcase Slider -->
       <div class="slider-card-wrap">
         <button class="slider-nav prev" onclick="moveShowcase(-1)" aria-label="Previous Slide">
           <i class="fa-solid fa-chevron-left"></i>
@@ -982,7 +1147,7 @@
         <div class="showcase-slider">
           <div class="showcase-track" id="showcaseTrack">
             
-           	<!-- Slide 1: Kushal Jain (CEO Solapur) -->
+            <!-- Slide 1: Kushal Jain (CEO Solapur) -->
             <div class="showcase-slide dev-testimonial-slide">
               <div class="dev-avatar-wrap">
                 <img src="images/ceo.jpg" alt="Kushal Jain - CEO Solapur" onerror="this.src='ceo.jpg'">
@@ -1015,17 +1180,18 @@
             <!-- Slide 3: Manoj Raut (BDO) -->
             <div class="showcase-slide dev-testimonial-slide">
               <div class="dev-avatar-wrap">
-                <img src="images/bdo.jpg" alt="Block Devlopment Officer - South Solapur" onerror="this.src='bdo.jpg'">
+                <img src="images/bdo.jpg" alt="Block Development Officer - South Solapur" onerror="this.src='bdo.jpg'">
               </div>
               <div class="dev-content">
                 <h3>Manoj Raut</h3>
-                <span class="dev-role">BDO,Panchayat Samiti, South Solapur</span>
+                <span class="dev-role">BDO, Panchayat Samiti, South Solapur</span>
                 <div class="dev-divider"></div>
                 <p>
                   "As a Block Development Officer, this salary portal has streamlined our salary distribution and paystub generation with total transparency. It is an indispensable, reliable tool for managing administrative tasks and payroll efficiently across departments."
                 </p>
               </div>
             </div>
+
             <!-- Slide 4: Block Education Officer (BEO) -->
             <div class="showcase-slide dev-testimonial-slide">
               <div class="dev-avatar-wrap">
@@ -1033,13 +1199,14 @@
               </div>
               <div class="dev-content">
                 <h3>Jayashri Sutar</h3>
-                <span class="dev-role">BEO,Panchayat Samiti, South Solapur</span>
+                <span class="dev-role">BEO, Panchayat Samiti, South Solapur</span>
                 <div class="dev-divider"></div>
                 <p>
                   "Ensuring zero administrative delay. Teachers across South Solapur can now instantly download official pay records directly on their mobile phones without needing physical office visits."
                 </p>
               </div>
             </div>
+
             <!-- Slide 5: Somnath Gaikwad (Web Developer) -->
             <div class="showcase-slide dev-testimonial-slide">
               <div class="dev-avatar-wrap">
@@ -1050,10 +1217,11 @@
                 <span class="dev-role">Web Developer</span>
                 <div class="dev-divider"></div>
                 <p>
-                  "As a web developer, I’m thrilled with the efficiency and robust security features of the new Salary Slip Portal! This platform simplifies everything, offering seamless access to pay details. It’s user-friendly, reliable, and a game-changer for digital employee experiences."
+                  "As a web developer, I’m thrilled with the efficiency and robust security features of the new Salary Slip Portal! This platform simplifies everything, offering seamless access to pay details. It’s user-friendly, reliable, and a game-changer for digital employee experiences."[cite: 2]
                 </p>
               </div>
             </div>
+
           </div>
           <div class="slider-progress-bar">
             <div class="slider-progress-fill" id="sliderProgress"></div>
@@ -1324,6 +1492,76 @@
     </div>
   </section>
 
+  <!-- =========================================================
+       CONTACT US & WHATSAPP COMMUNITY SECTION
+       ========================================================= -->
+  <section id="contactSection" class="contact-portal reveal-section">
+    <div class="contact-card">
+      <div class="contact-header">
+        <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
+        <h2>Helpdesk &amp; Grievance Redressal</h2>
+        <p>Have an issue regarding your salary statement or portal access? Send a direct WhatsApp message or join our community.</p>
+      </div>
+
+      <!-- Official WhatsApp Group Joining Banner -->
+      <div class="wa-group-card">
+        <div class="wa-group-info">
+          <i class="fa-solid fa-users"></i>
+          <div>
+            <strong>Join Teacher Salary Portal WhatsApp Group</strong>
+            <span>Receive instant updates, announcements &amp; direct technical support</span>
+          </div>
+        </div>
+        <a href="https://chat.whatsapp.com/BmoTvzdilUG7R326SXZrWY?s=cl&p=a&mlu=4&ilr=4&iam=1" target="_blank" rel="noopener noreferrer" class="btn-wa-group">
+          <i class="fa-brands fa-whatsapp"></i> Join Group
+        </a>
+      </div>
+
+      <div class="or-divider">Or Send Individual Message</div>
+
+      <!-- Direct Message Form -->
+      <form id="contactForm" onsubmit="sendViaWhatsApp(event)">
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="cEmpId">Employee ID</label>
+            <div class="input-wrapper">
+              <input id="cEmpId" type="text" placeholder="Enter Employee ID" required />
+              <i class="fa-solid fa-id-card icon-left"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cName">Full Name</label>
+            <div class="input-wrapper">
+              <input id="cName" type="text" placeholder="Enter Full Name" required />
+              <i class="fa-solid fa-user icon-left"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cSchool">School / Center Name</label>
+          <div class="input-wrapper">
+            <input id="cSchool" type="text" placeholder="Enter School Name" required />
+            <i class="fa-solid fa-school icon-left"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cMessage">Discrepancy / Query Details</label>
+          <div class="input-wrapper">
+            <textarea id="cMessage" rows="3" placeholder="Describe the problem, month, or deduction issue..." required></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-action" style="background:#16a34a;">
+          <span>Send Message via WhatsApp</span>
+          <i class="fa-brands fa-whatsapp"></i>
+        </button>
+      </form>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer class="modern-footer">
     <div class="footer-title">Teacher Salary Portal</div>
@@ -1333,7 +1571,7 @@
   </footer>
 
   <!-- =========================================================
-       SCRIPTS (Preserved Exact Logic + Modern UI Controls)
+       SCRIPTS (Preserved Exact Logic + WhatsApp Handler)
        ========================================================= -->
   <script>
     // ===== Year Population Logic (Preserved) =====
@@ -1441,7 +1679,34 @@
       });
     }
 
-    // ===== Scroll-Triggered Reveal for Features/About =====
+    // ===== Direct WhatsApp Messaging Function (Browser & App Compatible) =====
+    function sendViaWhatsApp(e) {
+      e.preventDefault();
+
+      const phoneTarget = "917020302223"; 
+
+      const empId = document.getElementById('cEmpId').value.trim();
+      const name = document.getElementById('cName').value.trim();
+      const school = document.getElementById('cSchool').value.trim();
+      const message = document.getElementById('cMessage').value.trim();
+
+      const text = `*Teacher Salary Portal - Inquiry/Grievance*\n\n` +
+                   `*Employee ID:* ${empId}\n` +
+                   `*Name:* ${name}\n` +
+                   `*School:* ${school}\n` +
+                   `*Query:* ${message}`;
+
+      const targetUrl = `https://api.whatsapp.com/send?phone=${phoneTarget}&text=${encodeURIComponent(text)}`;
+
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (isMobile) {
+        window.location.href = targetUrl;
+      } else {
+        window.open(targetUrl, '_blank', 'noopener,noreferrer');
+      }
+    }
+
+    // ===== Scroll-Triggered Reveal for Features/About/Contact =====
     document.addEventListener('DOMContentLoaded', () => {
       startShowcaseTimer();
       runCounters();
