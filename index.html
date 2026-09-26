@@ -131,7 +131,6 @@
       border-radius: 6px;
     }
 
-    /* Bilingual Switcher In Ticker Bar */
     .lang-switcher-wrap {
       padding: 0 14px;
       z-index: 2;
@@ -146,9 +145,9 @@
       background: rgba(255, 255, 255, 0.12);
       border: 1px solid rgba(255, 255, 255, 0.25);
       color: #ffffff;
-      padding: 4px 12px;
+      padding: 4px 14px;
       border-radius: 999px;
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -163,7 +162,7 @@
     }
 
     /* =========================================================
-       HERO & DYNAMIC SHOWCASE SLIDER
+       HERO & SHOWCASE SLIDER
        ========================================================= */
     .hero-wrapper {
       position: relative;
@@ -427,7 +426,7 @@
     }
 
     /* =========================================================
-       METRICS & RUNNING GRAPH SECTION
+       METRICS SECTION
        ========================================================= */
     .metrics-section {
       width: min(1140px, 94%);
@@ -600,7 +599,7 @@
     }
 
     /* =========================================================
-       SALARY PORTAL SECTION (Preserved Core)
+       SALARY PORTAL FORM
        ========================================================= */
     .salary-portal-section {
       width: min(1140px, 94%);
@@ -1323,7 +1322,7 @@
             <!-- Slide 3: Manoj Raut (BDO) -->
             <div class="showcase-slide dev-testimonial-slide">
               <div class="dev-avatar-wrap">
-                <img src="images/bdo.jpg" alt="Manoj Raut - BDO South Solapur" onerror="this.src='bdo.jpg'">
+                <img src="images/bdo.jpg" alt="Block Development Officer - South Solapur" onerror="this.src='bdo.jpg'">
               </div>
               <div class="dev-content">
                 <h3>Manoj Raut</h3>
@@ -1338,7 +1337,7 @@
             <!-- Slide 4: Jayashri Sutar (BEO) -->
             <div class="showcase-slide dev-testimonial-slide">
               <div class="dev-avatar-wrap">
-                <img src="images/beo.jpg" alt="Jayashri Sutar - BEO South Solapur" onerror="this.src='beo.jpg'">
+                <img src="images/beo.jpg" alt="Block Education Officer - South Solapur" onerror="this.src='beo.jpg'">
               </div>
               <div class="dev-content">
                 <h3>Jayashri Sutar</h3>
@@ -1375,7 +1374,7 @@
   </header>
 
   <!-- =========================================================
-       METRICS & RUNNING GRAPH SECTION
+       METRICS SECTION
        ========================================================= -->
   <section class="metrics-section">
     <div class="metrics-container">
@@ -1450,7 +1449,7 @@
   </section>
 
   <!-- =========================================================
-       SALARY PORTAL SECTION (Preserved Core)
+       SALARY PORTAL FORM
        ========================================================= -->
   <section id="salaryPortal" class="salary-portal-section">
     <div class="portal-section-intro">
@@ -1714,9 +1713,75 @@
   </footer>
 
   <!-- =========================================================
-       SCRIPTS: BILINGUAL ENGINE + CORE PAYROLL + WHATSAPP
+       SCRIPTS: NUMBER TO WORDS + BILINGUAL + PDF EXPORT
        ========================================================= -->
   <script>
+    // ===== NUMBER TO WORDS ENGINE (ENGLISH & MARATHI) =====
+    function numberToWordsIndian(num) {
+      if (!num || isNaN(num)) return '';
+      num = parseInt(num, 10);
+      if (num === 0) return 'Zero';
+
+      const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
+      const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+      function inWords(n) {
+        if (n < 20) return a[n];
+        if (n < 100) return b[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + a[n % 10] : ' ');
+        if (n < 1000) return inWords(Math.floor(n / 100)) + 'Hundred ' + (n % 100 !== 0 ? inWords(n % 100) : '');
+        if (n < 100000) return inWords(Math.floor(n / 1000)) + 'Thousand ' + (n % 1000 !== 0 ? inWords(n % 1000) : '');
+        if (n < 10000000) return inWords(Math.floor(n / 100000)) + 'Lakh ' + (n % 100000 !== 0 ? inWords(n % 100000) : '');
+        return inWords(Math.floor(n / 10000000)) + 'Crore ' + (n % 10000000 !== 0 ? inWords(n % 10000000) : '');
+      }
+
+      return 'Rupees ' + inWords(num).trim() + ' Only';
+    }
+
+    function numberToMarathiWords(n) {
+      if (!n || isNaN(n)) return '';
+      n = parseInt(n, 10);
+      if (n === 0) return 'शून्य';
+
+      const mWords = {
+        1:'एक', 2:'दोन', 3:'तीन', 4:'चार', 5:'पाच', 6:'सहा', 7:'सात', 8:'आठ', 9:'नऊ', 10:'दहा',
+        11:'अकरा', 12:'बारा', 13:'तेरा', 14:'चौदा', 15:'पंधरा', 16:'सोळा', 17:'सतरा', 18:'अठरा', 19:'एकोणीस', 20:'वीस',
+        21:'एकवीस', 22:'बावीस', 23:'तेवीस', 24:'चोवीस', 25:'पंचवीस', 26:'सव्वीस', 27:'सत्तावीस', 28:'अठ्ठावीस', 29:'एकोणतीस', 30:'तीस',
+        31:'एकतीस', 32:'बत्तीस', 33:'तेहतीस', 34:'चौतीस', 35:'पस्तीस', 36:'छत्तीस', 37:'सदतीस', 38:'अडतीस', 39:'एकोणचाळीस', 40:'चाळीस',
+        41:'एक्केचाळीस', 42:'बेचाळीस', 43:'त्रेचाळीस', 44:'चव्वेचाळीस', 45:'पंचेचाळीस', 46:'शेहेचाळीस', 47:'सत्तेचाळीस', 48:'अठ्ठेचाळीस', 49:'एकोणपन्नास', 50:'पन्नास',
+        51:'एक्कावन्न', 52:'बावन्न', 53:'त्रेपन्न', 54:'चोपन्न', 55:'पंचावन्न', 56:'छप्पन्न', 57:'सत्तावन्न', 58:'अठ्ठावन्न', 59:'एकोणसाठ', 60:'साठ',
+        61:'एकसष्ठ', 62:'बासष्ठ', 63:'त्रेसष्ठ', 64:'चौसष्ठ', 65:'पासष्ठ', 66:'सहासष्ठ', 67:'सदुसष्ठ', 68:'अडुसष्ठ', 69:'एकोणसत्तर', 70:'सत्तर',
+        71:'एकाहत्तर', 72:'बाहत्तर', 73:'त्र्याहत्तर', 74:'चौऱ्याहत्तर', 75:'पंच्याहत्तर', 76:'शहात्तर', 77:'सत्याहत्तर', 78:'अठ्ठ्याहत्तर', 79:'एकोणऐंशी', 80:'ऐंशी',
+        81:'एक्यांशी', 82:'ब्यांशी', 83:'त्र्यांशी', 84:'चौऱ्यांशी', 85:'पंच्यांशी', 86:'शहांशी', 87:'सत्त्यांशी', 88:'अठ्ठ्यांशी', 89:'एकोणनव्वद', 90:'नव्वद',
+        91:'एक्याण्णव', 92:'ब्याण्णव', 93:'त्र्याण्णव', 94:'चौऱ्याण्णव', 95:'पंच्याण्णव', 96:'शहाण्णव', 97:'सत्त्याण्णव', 98:'अठ्ठ्याण्णव', 99:'नव्व्याण्णव'
+      };
+
+      function parseM(val) {
+        if (val === 0) return '';
+        if (val < 100) return mWords[val] + ' ';
+        if (val < 1000) return mWords[Math.floor(val / 100)] + 'शे ' + (val % 100 !== 0 ? parseM(val % 100) : '');
+        if (val < 100000) return parseM(Math.floor(val / 1000)) + 'हजार ' + (val % 1000 !== 0 ? parseM(val % 1000) : '');
+        if (val < 10000000) return parseM(Math.floor(val / 100000)) + 'लाख ' + (val % 100000 !== 0 ? parseM(val % 100000) : '');
+        return parseM(Math.floor(val / 10000000)) + 'कोटी ' + (val % 10000000 !== 0 ? parseM(val % 10000000) : '');
+      }
+
+      return 'अक्षरी रुपये ' + parseM(n).trim() + ' फक्त';
+    }
+
+    function getNetSalaryInWords(record, lang) {
+      if (!record) return '';
+      const cleanNum = String(record.NetSalary || '').replace(/[^0-9]/g, '');
+
+      if (lang === 'en') {
+        return cleanNum ? numberToWordsIndian(cleanNum) : (record.NetSalaryWords || '');
+      } else {
+        const isAlreadyMarathi = /[\u0900-\u097F]/.test(record.NetSalaryWords || '');
+        if (isAlreadyMarathi) {
+          return record.NetSalaryWords;
+        }
+        return cleanNum ? numberToMarathiWords(cleanNum) : (record.NetSalaryWords || '');
+      }
+    }
+
     // ===== BILINGUAL TRANSLATION DICTIONARY =====
     const translations = {
       en: {
@@ -1863,12 +1928,19 @@
       }
     };
 
-    // Default language is English
-    let currentLang = localStorage.getItem('salary_portal_lang') || 'en';
+    let currentLang = 'en';
+    try {
+      const saved = localStorage.getItem('salary_portal_lang');
+      if (saved === 'mr' || saved === 'en') {
+        currentLang = saved;
+      }
+    } catch(e) {}
 
     function setLanguage(lang) {
       currentLang = lang;
-      localStorage.setItem('salary_portal_lang', lang);
+      try {
+        localStorage.setItem('salary_portal_lang', lang);
+      } catch(e) {}
       document.documentElement.lang = lang;
 
       const t = translations[lang];
@@ -1893,8 +1965,7 @@
       const cMsg = document.getElementById('cMessage');
       if (cMsg) cMsg.placeholder = lang === 'en' ? 'Describe the problem, month, or deduction issue...' : 'तफावत, महिना किंवा अडचणीचा सविस्तर तपशील लिहा...';
 
-      // Refresh on-screen summary card if already open
-      if(slipData) {
+      if (slipData) {
         renderSummary(slipData);
       }
     }
@@ -2062,7 +2133,7 @@
       document.querySelectorAll('.reveal-section').forEach(el => observer.observe(el));
     });
 
-    // ===== Core Authentication & PDF Code (Preserved) =====
+    // ===== Core Authentication & API Code (Preserved) =====
     let slipData = null;
 
     const passwordInput = document.getElementById("password");
@@ -2227,6 +2298,8 @@
     function renderSummary(r){
       document.getElementById('loginBox').style.display = 'none';
       const isEn = (currentLang === 'en');
+      const inWords = getNetSalaryInWords(r, currentLang);
+
       const html = `
         <div class="summary-card" id="summaryInner" role="region" aria-live="polite" aria-label="Salary slip summary">
           <h3 style="margin:4px 0 12px; font-size:1.15rem; color:var(--text-main);">${escapeHtml(r.Name || '')} <span style="font-size:0.85rem; color:var(--text-muted);">(${escapeHtml(r.EmployeeID || '')})</span></h3>
@@ -2234,7 +2307,7 @@
           <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;"><strong>${isEn?'Gross Salary':'एकूण वेतन'}:</strong> ₹${escapeHtml(r.GrossSalary||'0')} &nbsp;&bull;&nbsp; <strong>${isEn?'Deductions':'एकूण कपात'}:</strong> ₹${escapeHtml(r.TotalDeductions||'0')}</p>
           <div style="background:#f1f5f9; padding:10px; margin:12px 0; border-radius:10px; border: 1px solid var(--border-color);">
             <h3 style="color:#16a34a; font-size:1.1rem;">${isEn?'Net Salary':'निव्वळ वेतन'}: ₹${escapeHtml(r.NetSalary||'0')}</h3>
-            <p style="font-size:0.75rem; color:#475569; margin-top:2px;">${isEn?'In Words':'अक्षरी'}: ${escapeHtml(r.NetSalaryWords||'')}</p>
+            <p style="font-size:0.75rem; color:#475569; margin-top:2px;"><strong>${isEn?'In Words':'अक्षरी'}:</strong> ${escapeHtml(inWords)}</p>
           </div>
           <div class="action-group">
             <button onclick="showPrintSlip()" class="btn-action btn-sm" style="background:#16a34a;">
@@ -2281,7 +2354,6 @@
       if(!slipData) return '';
       const isEn = (currentLang === 'en');
 
-      // Complete Allowances list (Marathi & English)
       const allowances = isEn ? [
         ['Basic Pay','BasicPay'], 
         ['Dearness Allowance (DA)','DA'], 
@@ -2310,7 +2382,6 @@
         ['एकूण वेतन','GrossSalary']
       ];
 
-      // Complete Deductions list (Marathi & English)
       const deductions = isEn ? [
         ['GIS','GIS'], ['Professional Tax','ProfessionalTax'], ['GPF Subscription','GPF'], ['GPF Refund','GPFE'], ['Revenue Stamp','RevenueStamp'], ['NPSG','NPSG'], ['NPSE','NPSE'], ['Festival Advance','FA'], ['Income Tax (TDS)','IncomeTax'], ['CM Relief Fund','CMFund'],
         ['Flag Fund','FlagFund'], ['Group Accident Ins.','GAI'], ['Zilla Society','ZillaSociety'], ['Court Attachment','CourtDeduction'],
@@ -2367,7 +2438,6 @@
       const qrBase64 = canvas ? canvas.toDataURL("image/png") : "";
       qrContainer.remove();
 
-      // Department & Office Header
       const headerHtml = isEn ? `
         <div class="header-text" style="text-align:center; border-bottom:2px solid #1976d2; padding-bottom:6px;">
           <h1 style="margin:0; font-size:19px; color:#1a237e; font-weight:700;">Panchayat Samiti (Education Department), South Solapur</h1>
@@ -2380,7 +2450,6 @@
         </div>
       `;
 
-      // Employee Metadata Box
       const metaHtml = isEn ? `
         <div class="meta" style="margin:10px 0; padding:10px; background:#f9f9f9; border:1px solid #ccc; border-radius:6px; display:flex; justify-style:space-between; font-size:12px;">
           <div style="width:42%;">
@@ -2425,7 +2494,6 @@
         </div>
       `;
 
-      // Table Header Titles
       const tableHeadHtml = isEn ? `
         <thead>
           <tr>
@@ -2442,26 +2510,26 @@
         </thead>
       `;
 
-      // Net Salary Box
+      const dynamicInWords = getNetSalaryInWords(slipData, currentLang);
+
       const netBoxHtml = isEn ? `
         <div class="net-box">
           <h3>Net Salary Payable: ₹${escapeHtml(slipData.NetSalary||'0')}</h3>
-          <p><strong>In Words:</strong> ${escapeHtml(slipData.NetSalaryWords||'')}</p>
+          <p><strong>In Words:</strong> ${escapeHtml(dynamicInWords)}</p>
         </div>
       ` : `
         <div class="net-box">
           <h3>निव्‍वळ वेतन: ₹${escapeHtml(slipData.NetSalary||'0')}</h3>
-          <p><strong>अक्षरी:</strong> ${escapeHtml(slipData.NetSalaryWords||'')}</p>
+          <p><strong>अक्षरी:</strong> ${escapeHtml(dynamicInWords)}</p>
         </div>
       `;
 
-      // Footer
       const footerNote = isEn ? 
         'This is a system-generated salary slip and does not require a physical signature.' : 
         'हे संगणक प्रणालीद्वारे तयार केलेले वेतन पत्रक असल्याने यावर स्वाक्षरीची आवश्यकता नाही.';
 
       return `
-        <div style="font-family:'Noto Sans Devanagari', Arial, sans-serif; font-size:12px; color:#000; background:#fff; padding:10px; width:750px; margin:0 auto;">
+        <div id="salarySlipContent" style="font-family:'Noto Sans Devanagari', Arial, sans-serif; font-size:12px; color:#000; background:#fff; padding:10px; width:750px; margin:0 auto;">
           <style>
             .pdf-table { width:100%; border-collapse:collapse; border:2px solid #1976d2; margin-top:10px; }
             .pdf-table th, .pdf-table td { padding:5px 6px; font-size:11px; }
@@ -2525,7 +2593,7 @@
 
       const doc = printIframe.contentWindow.document;
       doc.open();
-      doc.write('<html><head><title>Print Slip</title></head><body>' + printHtml + '</body></html>');
+      doc.write('<!DOCTYPE html><html><head><title>Print Slip</title></head><body>' + printHtml + '</body></html>');
       doc.close();
 
       setTimeout(() => {
@@ -2534,58 +2602,75 @@
       }, 150);
     }
 
-    function downloadPdfSlip(btnEl){
-      if(!slipData){ alert(currentLang === 'en' ? 'No data available to download PDF' : 'PDF साठी माहिती उपलब्ध नाही'); return; }
+    // ===== 100% RELIABLE DIRECT PDF GENERATOR =====
+    function downloadPdfSlip(btnEl) {
+      if (!slipData) {
+        alert(currentLang === 'en' ? 'No data available to download PDF' : 'PDF साठी माहिती उपलब्ध नाही');
+        return;
+      }
 
       const originalText = btnEl.innerHTML;
       btnEl.disabled = true;
-      btnEl.innerHTML = '<span class="btn-spinner"></span> PDF...';
+      btnEl.innerHTML = '<span class="btn-spinner"></span> ' + (currentLang === 'en' ? 'Downloading...' : 'डाऊनलोड होत आहे...');
 
       const printHtml = generatePrintHtml();
 
+      // Create on-screen container (at bottom of body) with visibility preserved
       const container = document.createElement('div');
-      container.style.position = 'fixed';
-      container.style.top = '0';
+      container.id = 'activePdfRenderer';
+      container.style.position = 'absolute';
       container.style.left = '0';
-      container.style.width = '100%';
-      container.style.height = '100%';
-      container.style.zIndex = '-9999';
-      container.style.overflow = 'hidden';
+      container.style.top = (document.body.scrollHeight + 100) + 'px';
+      container.style.width = '780px';
       container.style.background = '#ffffff';
+      container.style.zIndex = '99999';
       container.innerHTML = printHtml;
       document.body.appendChild(container);
 
+      const targetEl = container.querySelector('#salarySlipContent') || container;
+
       const opt = {
-        margin:       0.2,
+        margin:       [0.2, 0.2, 0.2, 0.2],
         filename:     `SalarySlip_${slipData.EmployeeID}_${slipData.Month}_${slipData.Year}.pdf`,
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { 
-          scale: 2,
+          scale: 1.8,
           useCORS: true,
           logging: false,
           scrollY: 0,
-          scrollX: 0
+          scrollX: 0,
+          windowWidth: 800
         },
         jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
       };
 
+      // Give QR code canvas time to settle
       setTimeout(() => {
-        html2pdf().set(opt).from(container.firstElementChild).save().then(() => {
+        if (typeof html2pdf !== 'undefined') {
+          html2pdf().set(opt).from(targetEl).save().then(() => {
+            if (document.body.contains(container)) {
+              container.remove();
+            }
+            btnEl.disabled = false;
+            btnEl.innerHTML = originalText;
+          }).catch(err => {
+            console.error('PDF library failed:', err);
+            if (document.body.contains(container)) {
+              container.remove();
+            }
+            btnEl.disabled = false;
+            btnEl.innerHTML = originalText;
+            showPrintSlip();
+          });
+        } else {
           if (document.body.contains(container)) {
-            document.body.removeChild(container);
+            container.remove();
           }
           btnEl.disabled = false;
           btnEl.innerHTML = originalText;
-        }).catch(err => {
-          console.error(err);
-          alert(currentLang === 'en' ? 'Failed to generate PDF. Please try printing to PDF instead.' : 'PDF तयार करता आली नाही. कृपया प्रिंट पर्यायाचा वापर करा.');
-          if (document.body.contains(container)) {
-            document.body.removeChild(container);
-          }
-          btnEl.disabled = false;
-          btnEl.innerHTML = originalText;
-        });
-      }, 300);
+          showPrintSlip();
+        }
+      }, 350);
     }
   </script>
 </body>
