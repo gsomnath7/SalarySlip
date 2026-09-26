@@ -1764,7 +1764,7 @@
         return parseM(Math.floor(val / 10000000)) + 'कोटी ' + (val % 10000000 !== 0 ? parseM(val % 10000000) : '');
       }
 
-      return 'अक्षरी रुपये ' + parseM(n).trim() + ' फक्त';
+      return parseM(n).trim() + ' फक्त';
     }
 
     function getNetSalaryInWords(record, lang) {
